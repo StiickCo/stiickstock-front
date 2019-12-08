@@ -114,7 +114,7 @@ export default {
             this.color = "#fffff";
             this.text = "Usuário criado com sucesso!";
             this.snackbar = true;
-            setTimeout(() => this.$router.push('login'), 1000);
+            setTimeout(() => this.$router.push('/login'), 1000);
           }
         });
       }
