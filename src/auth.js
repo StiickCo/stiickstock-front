@@ -11,7 +11,7 @@ if (location.href.indexOf('localhost:3000') > -1) {
 // exchange the object with your own from the setup step above.
 const webAuth = new auth0.WebAuth({
   domain: 'dev-gzy6720b.auth0.com',
-  clientID: 'yFjbaQPHaXwRl78xzv5uk0GSyIq134bU',
+  clientID: 'MQHD4O2SDHVZmLHSefM72GBVCNoYid3H',
   // make sure this line is contains the port: 8080
   redirectUri: `http://localhost:3000/callback`,
   // we will use the api/v2/ to access the user information as payload
@@ -124,7 +124,7 @@ const auth = new Vue({
 
         webAuth.logout({
           returnTo: URL,
-          client_id: 'yFjbaQPHaXwRl78xzv5uk0GSyIq134bU',
+          client_id: 'MQHD4O2SDHVZmLHSefM72GBVCNoYid3H',
         });
       });
     },

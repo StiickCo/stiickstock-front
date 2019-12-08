@@ -11,6 +11,7 @@
 
 <script>
 import auth from "@/auth.js";
+import router from './router';
 
 export default {
   name: "App",
