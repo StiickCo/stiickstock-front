@@ -2,7 +2,7 @@
   <div>
     <v-toolbar color="primary" dark v-if="this.$auth.isAuthenticated()">
      
-      <v-header class="display-1" v-if="profile">StockControl</v-header>
+      <v-header class="display-1" v-if="profile">StiickStock</v-header>
 
       <v-spacer></v-spacer>
 
