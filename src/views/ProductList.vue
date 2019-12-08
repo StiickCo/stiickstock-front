@@ -15,7 +15,7 @@
 </template>
 <script>
 export default {
-    name: "listProduct",
+    name: "ProductList",
     data () {
       return {
         search: '',
