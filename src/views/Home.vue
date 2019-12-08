@@ -1,12 +1,22 @@
 <template>
-  <div class="home">
-    <h1>Login?</h1>
-  </div>
+  <ListProduct />
 </template>
 
 <script>
+import ListProduct from '@/views/ProductList.vue'
+
 export default {
-  name: 'home'
-  
-}
+  components: {
+    ListProduct,
+  },
+};
 </script>
+
+<style>
+.container{
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 0px;
+}
+</style>
+

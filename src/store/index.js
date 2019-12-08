@@ -1,31 +1,25 @@
-/**
- * Vuex
- *
- * @library
- *
- * https://vuex.vuejs.org/en/
- */
-
-// Lib imports
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-// Store functionality
-import actions from './actions'
-import getters from './getters'
-import modules from './modules'
-import mutations from './mutations'
-import state from './state'
-
+import axios from 'axios'
 Vue.use(Vuex)
 
-// Create a new store
-const store = new Vuex.Store({
-  actions,
-  getters,
-  modules,
-  mutations,
-  state
+export default new Vuex.Store({
+  state: {
+    profile: null,
+  },
+  mutations: {
+    SET_PERFIL(state, user) {
+      state.profile = user;
+    },
+  },
+  actions: {
+    carregarPerfil({ commit }, user) {
+      commit('SET_PERFIL', user);
+    },
+  },
+  modules: {
+  },
+  getters : {
+    
+  }
 })
-
-export default store

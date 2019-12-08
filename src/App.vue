@@ -1,38 +1,36 @@
 <template>
-    <v-app>
-    <loading
-     :show="$route.path == '/callback'"
-     :label="label">
-       
-    </loading>
-    <core-view v-if="!$auth.isAuthenticated()"/>
-
-    <div v-if="$auth.isAuthenticated()">
-        <core-filter />
-
-        <core-toolbar />
-
-        <core-drawer />
-
-        <core-view />
+  <v-app>
+    <Header />
+    <v-content class="ma-5">
+      <div>
+        <router-view></router-view>
       </div>
+    </v-content>
   </v-app>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld';
-
-import loading from 'vue-full-loading'
+import auth from "@/auth.js";
 
 export default {
-  name: 'app',
-  components: {
-    loading
+  name: "App",
+  mounted() {
+    this.$auth.checkVuex();
+
+    if (this.$auth.isAuthenticated()) {
+      this.$store.dispatch("carregarPerfil", this.$auth.user);
+    }
   },
-   data(){
-       return {
-           label: 'Entrando...'
-       }
-   }
-}
+
+  data: () => ({
+    //
+  })
+};
 </script>
+
+
+<style>
+#app {
+  font-family: "Montserrat", "Roboto", Arial, sans-serif;
+}
+</style>
