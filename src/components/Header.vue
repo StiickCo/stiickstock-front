@@ -1,14 +1,14 @@
 <template>
   <div>
-    <v-toolbar v-if="this.$auth.isAuthenticated()">
+    <v-toolbar color="primary" dark v-if="this.$auth.isAuthenticated()">
      
-      <v-subheader v-if="profile">Bem vindo, seu token de usuário é: {{profile.sub}}</v-subheader>
+      <v-header class="display-1" v-if="profile">StockControl</v-header>
 
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn text to="/">Geral</v-btn>
-        <v-btn text to="/archived">Arquivados</v-btn>
+        <v-btn text to="/">Inicio</v-btn>
+        <v-btn text to="/products">Produtos</v-btn>
       </v-toolbar-items>
 
       <template v-if="$vuetify.breakpoint.smAndUp">

@@ -33,4 +33,7 @@ export default {
 #app {
   font-family: "Montserrat", "Roboto", Arial, sans-serif;
 }
+#formLogin {
+  padding: 120px 0 0 0;
+}
 </style>

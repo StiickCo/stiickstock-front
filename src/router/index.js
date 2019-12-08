@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Login from '../views/Login.vue'
 import PasswordRecovery from '../views/PasswordRecovery.vue'
 import Signup from '../views/Signup.vue'
+import ProductList from '../views/ProductList.vue'
 import Callback from '../views/Callback.vue';
 import NotLogged from '../views/NotLogged.vue';
 import NotFound from '../views/NotFound.vue';
@@ -24,18 +25,18 @@ routes:  [
     component: Login
   },
   {
-    path: '/product',
-    name: 'product',
-    component: PasswordRecovery
+    path: '/products',
+    name: 'products',
+    component: ProductList
   },
   {
-    path: '/passwordrecovery',
-    name: 'passwordrecovery',
+    path: '/login/recovery',
+    name: 'recovery',
     component: PasswordRecovery
   },
 
   {
-    path: '/signup',
+    path: '/login/signup',
     name: 'signup',
     component: Signup
   },
@@ -72,10 +73,10 @@ router.beforeEach(async (to, from, next) => {
     next('');
   } else if (router.app.$auth.isAuthenticated() && to.name == 'login') {
     next('');
-  } else if (to.name == 'callback' || to.name == '403' || to.name == 'login' || to.name == 'signup' || to.name == 'recuperarsenha') { // check if "to"-route is "callback" and allow access
+  } else if (to.name == 'callback' || to.name == '403' || to.name == 'login' || to.name == 'signup' || to.name == 'recovery') { // check if "to"-route is "callback" and allow access
     next();
   } else if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
-    if(to.name == 'dashboard_gestor' || to.name == 'gestaocontatos') {
+    if(to.name == '' || to.name == 'gestaocontatos') {
       
       if(router.app.$store.getters.isManager || router.app.$store.getters.isDirector) {
         next();

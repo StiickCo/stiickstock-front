@@ -78,7 +78,7 @@
           </v-layout>
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-0.5s">
-            <a class="mr-2" href="/passwordrecovery">Esqueceu a senha?</a>  | 
+            <a class="mr-2" href="/login/recovery">Esqueceu a senha?</a>  | 
             <a class="ml-2" href="/">Já sou registrado</a>
           </v-layout>
         </v-flex>
@@ -184,7 +184,7 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   border: transparent;
   -webkit-text-fill-color: white;
-  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  box-shadow: 0 0 0px 1000px transparent inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 </style>

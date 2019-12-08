@@ -4,10 +4,8 @@
       <v-layout pa-2>
         <v-flex>
           <div class="cabecalho animated fadeIn delay-0.5s mt-6">
-            <img src="@/assets/logo_softplan.png" />
           </div>
           <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
-            <span>Log Central</span>
           </v-layout>
 
           <v-layout align-center justify-center row>
@@ -32,7 +30,7 @@
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-0.5s">
             <a class="mr-2" href="/">Fazer Login</a>  | 
-            <a class="ml-2" href="/signup">Registrar-se</a>
+            <a class="ml-2" href="/login/signup">Registrar-se</a>
           </v-layout>
         </v-flex>
       </v-layout>
@@ -127,7 +125,7 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   border: transparent;
   -webkit-text-fill-color: white;
-  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  box-shadow: 0 0 0px 1000px transparent inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 </style>
