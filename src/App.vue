@@ -1,31 +1,39 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <v-btn to="/" text> Inicio </v-btn>
-      <v-btn to="/products" text> Produtos </v-btn>
-      
-    </v-app-bar>
-
-    <v-content>
-      <!-- <HelloWorld/> -->
-      <!-- <h1>asd</h1> -->
-      <router-view/>
+    <Header />
+    <v-content class="ma-5">
+      <div>
+        <router-view></router-view>
+      </div>
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld';
+import auth from "@/auth.js";
 
 export default {
-  name: 'App',
+  name: "App",
+  mounted() {
+    this.$auth.checkVuex();
 
-  components: {
-    // HelloWorld,
+    if (this.$auth.isAuthenticated()) {
+      this.$store.dispatch("carregarPerfil", this.$auth.user);
+    }
   },
 
   data: () => ({
     //
-  }),
+  })
 };
 </script>
+
+
+<style>
+#app {
+  font-family: "Montserrat", "Roboto", Arial, sans-serif;
+}
+#formLogin {
+  padding: 120px 0 0 0;
+}
+</style>

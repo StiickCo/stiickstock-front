@@ -1,12 +1,18 @@
 <template>
-  <div class="home">
-    <h1>Login?</h1>
-  </div>
+  <h5 class="text-center">Welcome</h5>
 </template>
 
 <script>
+
 export default {
-  name: 'home'
-  
-}
+};
 </script>
+
+<style>
+.container{
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 0px;
+}
+</style>
+
