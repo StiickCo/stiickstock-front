@@ -1,26 +1,72 @@
+/**
+ * Vue Router
+ *
+ * @library
+ *
+ * https://router.vuejs.org/en/
+ */
+
+// Lib imports
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import VueAnalytics from 'vue-analytics'
+import Router from 'vue-router'
+import Meta from 'vue-meta'
 
-Vue.use(VueRouter)
+// Routes
+import paths from './paths'
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/products',
-    name: 'products',
-    component: () => import('../views/ProductList.vue')
+function route (path, view, name) {
+  return {
+    name: name || view,
+    path,
+    component: (resolve) => import(
+      `@/views/${view}.vue`
+    ).then(resolve)
   }
-]
+}
 
-const router = new VueRouter({
+Vue.use(Router)
+
+// Create a new router
+const router = new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+  routes: paths.map(path => route(path.path, path.view, path.name)).concat([
+    { path: '*', redirect: '/dashboard' }
+  ]),
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    if (to.hash) {
+      return { selector: to.hash }
+    }
+    return { x: 0, y: 0 }
+  }
 })
+
+Vue.use(Meta)
+
+// Bootstrap Analytics
+// Set in .env
+// https://github.com/MatteoGabriele/vue-analytics
+if (process.env.GOOGLE_ANALYTICS) {
+  Vue.use(VueAnalytics, {
+    id: process.env.GOOGLE_ANALYTICS,
+    router,
+    autoTracking: {
+      page: process.env.NODE_ENV !== 'development'
+    }
+  })
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.name == 'callback' || to.name == '403') { // check if "to"-route is "callback" and allow access
+    next()
+  } else if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+    next()
+  } else { // trigger auth0 login
+    router.app.$auth.login();
+  }
+});
 
 export default router

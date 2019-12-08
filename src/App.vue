@@ -1,31 +1,38 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <v-btn to="/" text> Inicio </v-btn>
-      <v-btn to="/products" text> Produtos </v-btn>
-      
-    </v-app-bar>
+    <v-app>
+    <loading
+     :show="$route.path == '/callback'"
+     :label="label">
+       
+    </loading>
+    <core-view v-if="!$auth.isAuthenticated()"/>
 
-    <v-content>
-      <!-- <HelloWorld/> -->
-      <!-- <h1>asd</h1> -->
-      <router-view/>
-    </v-content>
+    <div v-if="$auth.isAuthenticated()">
+        <core-filter />
+
+        <core-toolbar />
+
+        <core-drawer />
+
+        <core-view />
+      </div>
   </v-app>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld';
 
+import loading from 'vue-full-loading'
+
 export default {
-  name: 'App',
-
+  name: 'app',
   components: {
-    // HelloWorld,
+    loading
   },
-
-  data: () => ({
-    //
-  }),
-};
+   data(){
+       return {
+           label: 'Entrando...'
+       }
+   }
+}
 </script>
