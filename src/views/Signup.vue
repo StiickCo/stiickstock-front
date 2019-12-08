@@ -4,11 +4,21 @@
       <v-layout pa-2>
         <v-flex>
           <div class="cabecalho animated fadeIn delay-0.5s mt-6">
-            <img src="@/assets/logo_softplan.png" />
           </div>
           <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
-            <span>Log Central</span>
           </v-layout>
+          <v-snackbar
+            v-model="snackbar"
+          >
+            {{ text }}
+            <v-btn
+              color="white"
+              text
+              @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </v-snackbar>
 
 <!-- 
             <v-layout align-center justify-center row>
@@ -98,7 +108,7 @@ export default {
       e.preventDefault();
       if (this.valid) {
         this.$auth.signUp(this.email, this.password, (err, resp) => {
-          if (err && err.code == "user_exists") {
+          if (err && err.code == "invalid_signup") {
             this.color = "#fffff";
             this.text =
               "Usuário já existe, tente outro usuário ou realize o login.";

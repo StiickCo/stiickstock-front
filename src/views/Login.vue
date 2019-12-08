@@ -19,7 +19,7 @@
                 prepend-inner-icon="person"
                 clearable
                 @click:clear="limparForm"
-                :rules="[rules.required]"
+                :rules="[]"
               />
             </v-flex>
           </v-layout>
@@ -35,7 +35,7 @@
                 :append-icon="show ? 'visibility' : 'visibility_off'"
                 @click:append="show = !show"
                 :type="show ? 'text' : 'password'"
-                :rules="[rules.required, rules.min]"
+                :rules="[]"
               ></v-text-field>
             </v-flex>
           </v-layout>
@@ -91,7 +91,6 @@ export default {
       password: "",
       loading: false,
       rules: {
-        required: value => !!value || "Campo Obrigatorio",
         min: v => (v && v.length >= 8) || "Minimo de 8 caracteres"
       }
     };

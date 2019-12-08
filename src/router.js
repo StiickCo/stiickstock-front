@@ -1,13 +1,13 @@
 import Vue from 'vue'
-import Home from '../views/Home.vue';
+import Home from './views/Home.vue';
 import Router from 'vue-router';
-import Login from '../views/Login.vue'
-import PasswordRecovery from '../views/PasswordRecovery.vue'
-import Signup from '../views/Signup.vue'
-import ProductList from '../views/ProductList.vue'
-import Callback from '../views/Callback.vue';
-import NotLogged from '../views/NotLogged.vue';
-import NotFound from '../views/NotFound.vue';
+import Login from './views/Login.vue'
+import PasswordRecovery from './views/PasswordRecovery.vue'
+import Signup from './views/Signup.vue'
+import ProductList from './views/ProductList.vue'
+import Callback from './views/Callback.vue';
+import NotLogged from './views/NotLogged.vue';
+import NotFound from './views/NotFound.vue';
 
 Vue.use(Router)
 
@@ -88,7 +88,7 @@ router.beforeEach(async (to, from, next) => {
     }
   } else { // trigger auth0 login
     next('login');
-    // router.app.$auth.login();
+    //router.app.$auth.login();
   }
 });
 export default router
