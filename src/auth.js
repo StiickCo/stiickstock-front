@@ -10,12 +10,12 @@ if (location.href.indexOf('localhost:3000') > -1) {
 
 // exchange the object with your own from the setup step above.
 const webAuth = new auth0.WebAuth({
-  domain: 'dev-atlck08c.auth0.com',
-  clientID: 'mPb4OjpetHSi9QiZ6nscjcw5HIIQi8eS',
+  domain: 'stiick-co.auth0.comm',
+  clientID: 'AtspUzJO2z0LfbicomPUWxG0M8FXyc0h',
   // make sure this line is contains the port: 8080
   redirectUri: `http://localhost:3000/callback`,
   // we will use the api/v2/ to access the user information as payload
-  audience: 'https://dev-atlck08c.auth0.com/api/v2/',
+  audience: 'https://stiick-co.auth0.com/api/v2/',
   responseType: 'token id_token',
   scope: 'openid profile', // define the scopes you want to use
 });
@@ -73,7 +73,7 @@ const auth = new Vue({
           realm: 'Username-Password-Authentication', // connection name or HRD domain
           username: user,
           password,
-          audience: 'https://dev-atlck08c.auth0.com/api/v2/',
+          audience: 'https://stiick-co.auth0.com/api/v2/',
           scope: 'openid profile',
         }, (err, result) => {
           cb(err, result);
@@ -124,7 +124,7 @@ const auth = new Vue({
 
         webAuth.logout({
           returnTo: URL,
-          client_id: 'mPb4OjpetHSi9QiZ6nscjcw5HIIQi8eS',
+          client_id: 'AtspUzJO2z0LfbicomPUWxG0M8FXyc0h',
         });
       });
     },
