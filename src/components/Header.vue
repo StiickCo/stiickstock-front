@@ -7,8 +7,8 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn text to="/">Inicio</v-btn>
-        <v-btn text to="/products">Produtos</v-btn>
+        <v-btn text to="/"> <v-icon>home</v-icon> Inicio</v-btn>
+        <v-btn text to="/products"> <v-icon>shopping_basket</v-icon> Produtos  </v-btn>
       </v-toolbar-items>
 
       <template v-if="$vuetify.breakpoint.smAndUp">
