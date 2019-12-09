@@ -10,7 +10,7 @@ if (location.href.indexOf('localhost:3000') > -1) {
 
 // exchange the object with your own from the setup step above.
 const webAuth = new auth0.WebAuth({
-  domain: 'stiick-co.auth0.comm',
+  domain: 'stiick-co.auth0.com',
   clientID: 'AtspUzJO2z0LfbicomPUWxG0M8FXyc0h',
   // make sure this line is contains the port: 8080
   redirectUri: `http://localhost:3000/callback`,
