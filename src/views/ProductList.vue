@@ -17,16 +17,16 @@
                 <v-card-title class="headline grey lighten-2" primary-title>Adicionar novo produto</v-card-title>
 
                 <v-card-text>
-                <v-text-field required label="Nome do produto" v-model='prodEditName'></v-text-field>
-                <v-text-field type='number' step='0.01' label="Preço unitário" prefix="R$" v-model='prodEditPrice'></v-text-field>
-                <v-text-field type='number' label="Quantidade de produtos em estoque" v-model='prodEditQtd'></v-text-field>
-                <v-text-field label="Descrição do produto (opcional)" v-model='prodEditDesc'></v-text-field>
+                <v-text-field required label="Nome do produto" v-model='product.name'></v-text-field>
+                <v-text-field type='number' step='0.01' label="Preço unitário" prefix="R$" v-model='product.price'></v-text-field>
+                <v-text-field type='number' label="Quantidade de produtos em estoque" v-model='product.quantity'></v-text-field>
+                <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
                 </v-card-text>
                 <v-divider></v-divider>
 
                 <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-2" text @click="addProduct()">Adicionar produto</v-btn>
+                <v-btn color="blue darken-2" @click="addProduct(product)" text>Adicionar produto</v-btn>
                 <v-btn color="red" text @click="dialogAdd = false">Cancelar</v-btn>
                 </v-card-actions>
                 
@@ -37,9 +37,9 @@
     
     </template>
 
-        <template v-slot:item.productQtd="{ item }">
+        <template v-slot:item.quantity ="{ item }">
             <v-btn icon> <v-icon >add</v-icon> </v-btn>
-            <span> {{ item.productQtd }} </span>
+            <span> {{ item.quantity }} </span>
             <v-btn icon> <v-icon>remove</v-icon> </v-btn> 
             
         </template>
@@ -54,8 +54,8 @@
 
         <template v-slot:item.actions="{ item }">
             <v-btn icon> <v-icon>info</v-icon> </v-btn>
-            <v-btn icon @click="getEditProdut(item)"> <v-icon>edit</v-icon> </v-btn>
-            <v-btn icon @click="getDeleteProduct(item)"> <v-icon>delete</v-icon> </v-btn>
+            <v-btn icon @click="getEditProduct(item)"> <v-icon>edit</v-icon> </v-btn>
+            <v-btn icon @click="getDelete(item)"> <v-icon>delete</v-icon> </v-btn>
         </template>
         <!-- Todo: dialog box when clicking edit/delete -->
     </v-data-table>
@@ -69,7 +69,7 @@
             <v-card-text class="subtitle-1">Deseja mesmo deletar o produto "{{ prodDeleteName }}"?</v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-                <v-btn color="red" text @click="removeProduct()">Deletar</v-btn>
+                <v-btn color="red" text @click="removeProduct(prodDeleted)">Deletar</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn color="blue-darken-2" text @click="dialogDelete = false">Cancelar</v-btn>
             </v-card-actions>
@@ -81,20 +81,18 @@
             <v-card>
                 <v-card-title class="headline grey lighten-2" primary-title>Editar produto</v-card-title>
                 <v-card-text>
-                <v-text-field required label="Nome do produto" v-model='prodEditName'></v-text-field>
-                <v-text-field type='number' step='0.01' label="Preço unitário" prefix="R$" v-model='prodEditPrice'></v-text-field>
-                <v-text-field type='number' label="Quantidade de produtos em estoque" v-model='prodEditQtd'></v-text-field>
-                <v-text-field label="Descrição do produto (opcional)" v-model='prodEditDesc'></v-text-field>
+                <v-text-field required label="Nome do produto" v-model='product.name'></v-text-field>
+                <v-text-field type='number' step='0.01' label="Preço unitário" prefix="R$" v-model='product.price'></v-text-field>
+                <v-text-field type='number' label="Quantidade de produtos em estoque" v-model='product.quantity'></v-text-field>
+                <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
                 </v-card-text>
                 <v-divider></v-divider>
 
                 <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-2" text @click="saveEdit()">Salvar</v-btn>
+                <v-btn color="blue darken-2" text @click="addProduct(product)">Salvar</v-btn>
                 <v-btn color="red" text @click="dialogEdit = false">Cancelar</v-btn>
                 </v-card-actions>
-                
-                
             </v-card>
         </v-dialog>
   </v-card>
@@ -114,16 +112,16 @@ export default {
         dialogDelete: false,
         dialogAdd: false,
         prodDeleteName: '',
-
-        prodIndex: 0,
-        
-        prodEditName: '',
-        prodEditPrice: 0,
-        prodEditQtd: 0,
-        prodEditDesc: '',
+        product: {
+          id: "",
+          name: "",
+          price: "",
+          quantity: "",
+          details: "",
+        },
+        prodDeleted: 0,
         search: '',
-        headers: [{ text: 'ID', align: 'left', value: 'id'},
-          { text: 'Nome do produto', value: 'name'},
+        headers: [{ text: 'Nome do produto', value: 'name'},
           { text: 'Preço por item', value: 'price' },
           { text: 'Estoque atual', value: 'quantity' },
           { text: 'Valor total', value: 'total' },
@@ -133,44 +131,38 @@ export default {
       }
     },
     methods:{
-        getDeleteProduct(item){
+        getDelete(item){
             this.prodDeleteName = item.name;
-            this.prodIndex = this.products.indexOf(item);
+            this.prodDeleted = item;
             this.dialogDelete = true;
         },
 
-        removeProduct(){
-            this.products.splice(this.prodIndex, 1);
-            this.dialogDelete = false;
+        async removeProduct(item) {
+          console.log(item)
+          let res = await api.deleteProduct(item).then(data => {
+            if (data.status == 200) {
+              this.getProducts();
+            }
+          })
+          this.dialogDelete = false;
         },
 
-        getEditProdut(item){
-            this.prodEditName = item.productName;
-            this.prodEditPrice = item.productPrice;
-            this.prodEditQtd = item.productQtd;
-            this.prodEditDesc = item.productDescription;
-            this.prodIndex = this.products.indexOf(item);
+        getEditProduct(item){
+            this.product.name = item.name;
+            this.product.price = item.price;
+            this.product.quantity = item.quantity;
+            this.product.details = item.details;
+            this.product.id = item.id
             this.dialogEdit = true;
         },
-        saveEdit(){
-            this.products[this.prodIndex].productName = this.prodEditName;
-            this.products[this.prodIndex].productPrice = this.prodEditPrice;
-            this.products[this.prodIndex].productQtd = this.prodEditQtd;
-            this.products[this.prodIndex].productDescription = this.prodEditDesc;
-            this.dialogEdit = false;
-        },
-        addProduct(){
-            let maxID = this.products.length+1;
-            let newProd = {
-                id: maxID,
-                name: this.prodEditName,
-                productPrice: this.prodEditPrice,
-                productQtd: this.prodEditQtd,
-                productTotal: 0,
-                productDescription: this.prodEditDesc
-            }
-            this.products.push(newProd);
-            this.dialogAdd = false;
+        async addProduct(item){
+            let res = await api.save(item).then(data => {
+              if (data.status == '200') {
+                this.getProducts();
+                this.dialogAdd = false;
+                this.dialogEdit = false;
+              }
+            })
         },
         getProducts() {
           let res = api.findAllProduct().then(data => {
