@@ -21,7 +21,28 @@
       </template>
 
     </v-toolbar>
-  
+
+  <v-navigation-drawer v-model="dialogProfile" absolute temporary right>
+      <v-list-item>
+        <v-list-item-avatar>
+          <v-img :src="`${user.picture}`"></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title>{{user.nickname}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+      <v-list>
+
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title> <v-icon color="green">email</v-icon>  {{ user.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
   </div>
   
 </template>
@@ -31,7 +52,15 @@ import { mapState, mapActions } from "vuex";
 import auth from "@/auth.js";
 
   export default {
+    mounted () {
+      this.getuserData()
+    },
     data: () => ({
+      items: [
+          { title: 'Home', icon: 'dashboard' },
+          { title: 'About', icon: 'question_answer' },
+        ],
+
       dialogProfile: false,
       extended: false,
       extendedSlot: false,
@@ -41,10 +70,14 @@ import auth from "@/auth.js";
       flat: false,
       bg: false,
       extensionHeight: 48,
+      user: [],
     }),
     methods: {
       logout(){
         this.$auth.logout();
+      },
+      getuserData(){
+        this.user = JSON.parse(localStorage.getItem('user'));
       }
     },
     computed: {
