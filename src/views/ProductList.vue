@@ -11,7 +11,7 @@
         <div class="text-right mr-4">
             <v-dialog v-model="dialogAdd" width="500">
             <template v-slot:activator="{ on }">
-                <v-btn color="blue darken-3" dark v-on="on">Adicionar novo produto</v-btn>
+                <v-btn color="blue darken-3" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
             </template>
             <v-card>
                 <v-card-title class="headline grey lighten-2" primary-title>Adicionar novo produto</v-card-title>
@@ -246,6 +246,13 @@ export default {
             }
             this.products.push(newProd);
             this.dialogAdd = false;
+        },
+
+        clear(){
+            this.prodEditName = '',
+            this.prodEditPrice = '',
+            this.prodEditQtd =  '',
+            this.prodEditDesc = ''
         }
     }
 }
