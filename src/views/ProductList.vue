@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      Estoque
+      <!-- Estoque -->
       <v-spacer></v-spacer>
       <v-text-field v-model="search" label="Procurar" single-line hide-details></v-text-field>
     </v-card-title>
@@ -11,7 +11,7 @@
         <div class="text-right mr-4">
             <v-dialog v-model="dialogAdd" width="500">
             <template v-slot:activator="{ on }">
-                <v-btn color="blue darken-3" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
+                <v-btn color="green darken-1" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
             </template>
             <v-card>
                 <v-card-title class="headline grey lighten-2" primary-title>Adicionar novo produto</v-card-title>
@@ -37,15 +37,22 @@
     
     </template>
 
+        <template v-slot:item.plus ="{ item }">
+            <v-btn  @click="addOne(item)" class="mr-n12" icon> <v-icon color="green">add</v-icon> </v-btn>
+            <!-- <span > {{ item.quantity }} </span> -->
+            <!-- <v-btn @click="removeOne(item)" icon> <v-icon color="green">remove</v-icon> </v-btn>  -->
+        </template>
+
         <template v-slot:item.quantity ="{ item }">
-            <v-btn icon> <v-icon >add</v-icon> </v-btn>
             <span> {{ item.quantity }} </span>
-            <v-btn icon> <v-icon>remove</v-icon> </v-btn> 
-            
+        </template>
+
+        <template v-slot:item.minus ="{ item }">
+            <v-btn @click="removeOne(item)" class="ml-n12" icon> <v-icon color="green">remove</v-icon> </v-btn> 
         </template>
 
         <template v-slot:item.total="{ item }">
-            {{ item.total = (item.price * item.quantity).toFixed(2) }}
+            <span>{{ item.total = (item.price * item.quantity).toLocaleString() }}</span>
         </template>
 
         <template v-slot:expanded-item="{ item }">
@@ -53,11 +60,10 @@
         </template>
 
         <template v-slot:item.actions="{ item }">
-            <v-btn icon> <v-icon>info</v-icon> </v-btn>
-            <v-btn icon @click="getEditProduct(item)"> <v-icon>edit</v-icon> </v-btn>
-            <v-btn icon @click="getDelete(item)"> <v-icon>delete</v-icon> </v-btn>
+            <v-btn icon :to="`/productInfo/${item.id}`"> <v-icon color="green">info</v-icon> </v-btn>
+            <v-btn icon @click="getProduct(item);dialogEdit = true;"> <v-icon color="green">edit</v-icon> </v-btn>
+            <v-btn icon @click="getDelete(item)"> <v-icon color="green"> delete</v-icon> </v-btn>
         </template>
-        <!-- Todo: dialog box when clicking edit/delete -->
     </v-data-table>
 
     <!-- ********** DIALOGS ********** -->
@@ -123,7 +129,9 @@ export default {
         search: '',
         headers: [{ text: 'Nome do produto', value: 'name'},
           { text: 'Preço por item', value: 'price' },
-          { text: 'Estoque atual', value: 'quantity' },
+          { text: '', value: 'plus', align:'end', width:'1'},
+          { text: 'Estoque atual', value: 'quantity', align: 'center', width:'130 '},
+          { text: '', value: 'minus', align:'start', width:'150'},
           { text: 'Valor total', value: 'total' },
           { text: 'Ações', align: 'center', sortable: false, value: 'actions'},
         ],
@@ -147,13 +155,13 @@ export default {
           this.dialogDelete = false;
         },
 
-        getEditProduct(item){
+        getProduct(item){
             this.product.name = item.name;
             this.product.price = item.price;
             this.product.quantity = item.quantity;
             this.product.details = item.details;
             this.product.id = item.id
-            this.dialogEdit = true;
+
         },
         async addProduct(item){
             let res = await api.save(item).then(data => {
@@ -170,11 +178,24 @@ export default {
           });
         },
         clear(){
-            this.prodEditName = '',
-            this.prodEditPrice = '',
-            this.prodEditQtd =  '',
-            this.prodEditDesc = ''
+            this.product.name = '',
+            this.product.price = '',
+            this.product.quantity =  '',
+            this.product.details = ''
+        },
+        addOne(item){
+            this.getProduct(item);
+            this.product.quantity++;
+            this.addProduct(this.product);
+        },
+        removeOne(item){
+            this.getProduct(item);
+            this.product.quantity--;
+            this.addProduct(this.product);
         }
+    },
+    props:{
+        item: Object
     }
 }
 </script>

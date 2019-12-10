@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar color="primary" dark v-if="this.$auth.isAuthenticated()">
+    <v-toolbar color="green darken-1" dark v-if="this.$auth.isAuthenticated()">
      
       <v-header class="display-1" v-if="profile">StiickStock</v-header>
 
@@ -12,16 +12,18 @@
       </v-toolbar-items>
 
       <template v-if="$vuetify.breakpoint.smAndUp">
-        <v-btn icon to="">
+        <v-btn icon @click="dialogProfile = true">
           <v-icon>person</v-icon>
         </v-btn>
         <v-btn icon @click="logout">
           <v-icon>exit_to_app</v-icon>
         </v-btn>
-        
       </template>
+
     </v-toolbar>
+  
   </div>
+  
 </template>
 
 <script>
@@ -30,6 +32,7 @@ import auth from "@/auth.js";
 
   export default {
     data: () => ({
+      dialogProfile: false,
       extended: false,
       extendedSlot: false,
       prominent: false,
