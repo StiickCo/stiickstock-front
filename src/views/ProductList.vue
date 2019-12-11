@@ -38,9 +38,8 @@
     </template>
 
         <template v-slot:item.plus ="{ item }">
-            <v-btn  @click="addOne(item)" class="mr-n12" icon> <v-icon color="green">add</v-icon> </v-btn>
-            <!-- <span > {{ item.quantity }} </span> -->
-            <!-- <v-btn @click="removeOne(item)" icon> <v-icon color="green">remove</v-icon> </v-btn>  -->
+            <v-btn  v-if="wWidth < 600" @click="addOne(item)" class="mr-n4" icon> <v-icon color="green">add</v-icon></v-btn>
+            <v-btn  v-else @click="addOne(item)" class="mr-n12" icon> <v-icon color="green">add</v-icon></v-btn>
         </template>
 
         <template v-slot:item.quantity ="{ item }">
@@ -48,7 +47,8 @@
         </template>
 
         <template v-slot:item.minus ="{ item }">
-            <v-btn @click="removeOne(item)" class="ml-n12" icon> <v-icon color="green">remove</v-icon> </v-btn> 
+            <v-btn v-if="wWidth >= 600" @click="removeOne(item)" class="ml-n12" icon> <v-icon color="green">remove</v-icon> </v-btn> 
+            <v-btn v-else @click="removeOne(item)" class="mr-n4" icon> <v-icon color="green">remove</v-icon> </v-btn> 
         </template>
 
         <template v-slot:item.total="{ item }">
@@ -110,7 +110,8 @@ const api = new APIService();
 export default {
     name: "ProductList",
     mounted () {
-      this.getProducts()
+      this.getProducts();
+      this.getWindow();
     },
     data () {
       return {
@@ -118,6 +119,8 @@ export default {
         dialogDelete: false,
         dialogAdd: false,
         prodDeleteName: '',
+        wHeight: 0,
+        wWidth: 0,
         product: {
           id: "",
           name: "",
@@ -129,7 +132,7 @@ export default {
         search: '',
         headers: [{ text: 'Nome do produto', value: 'name'},
           { text: 'Preço por item', value: 'price' },
-          { text: '', value: 'plus', align:'end', width:'1'},
+          { text: '', value: 'plus', align:'end', width:'150'},
           { text: 'Estoque atual', value: 'quantity', align: 'center', width:'130 '},
           { text: '', value: 'minus', align:'start', width:'150'},
           { text: 'Valor total', value: 'total' },
@@ -192,6 +195,10 @@ export default {
             this.getProduct(item);
             this.product.quantity--;
             this.addProduct(this.product);
+        },
+        getWindow(){
+            this.wWidth = window.innerWidth;
+            this.wHeight = window.innerHeight;
         }
     },
     props:{
