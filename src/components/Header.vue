@@ -1,12 +1,19 @@
 <template>
   <div >
       
-    <v-toolbar class="mt-n5 pt-2" color="green darken-1" dark v-if="this.$auth.isAuthenticated()">
+    <v-toolbar class="mt-n4 pt-2" color="green darken-1" dark v-if="this.$auth.isAuthenticated()">
      
       <v-header bottom class="display-1" v-if="profile">StiickStock</v-header>
 
       <v-spacer></v-spacer>
-
+        <v-toolbar-items>
+        <v-btn icon @click="dialogProfile = true">
+          <v-icon>person</v-icon>
+        </v-btn>
+        <v-btn icon @click="logout">
+          <v-icon>exit_to_app</v-icon>
+        </v-btn>        
+        </v-toolbar-items>
  
 
     </v-toolbar>

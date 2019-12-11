@@ -5,13 +5,7 @@
 
       <v-toolbar-items>
         <v-btn text to="/"> <v-icon>home</v-icon> Inicio</v-btn>
-        <v-btn text to="/products"> <v-icon>shopping_basket</v-icon> Produtos  </v-btn>
-        <v-btn icon @click="dialogProfile = true">
-          <v-icon>person</v-icon>
-        </v-btn>
-        <v-btn icon @click="logout">
-          <v-icon>exit_to_app</v-icon>
-        </v-btn>        
+        <v-btn text to="/products"> <v-icon>shopping_basket</v-icon> Produtos  </v-btn>  
         </v-toolbar-items>
         <v-spacer></v-spacer>
     </v-toolbar>
