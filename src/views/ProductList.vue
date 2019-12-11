@@ -11,7 +11,7 @@
         <div class="text-right mr-4">
             <v-dialog v-model="dialogAdd" width="500">
             <template v-slot:activator="{ on }">
-                <v-btn color="green darken-1" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
+                <v-btn color="green darken-2" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
             </template>
             <v-card>
                 <v-card-title class="headline grey lighten-2" primary-title>Adicionar novo produto</v-card-title>
@@ -47,8 +47,8 @@
         </template>
 
         <template v-slot:item.minus ="{ item }">
-            <v-btn v-if="wWidth >= 600" @click="removeOne(item)" class="ml-n12" icon> <v-icon color="green">remove</v-icon> </v-btn> 
-            <v-btn v-else @click="removeOne(item)" class="mr-n4" icon> <v-icon color="green">remove</v-icon> </v-btn> 
+            <v-btn v-if="wWidth >= 600" @click="removeOne(item)" class="ml-n12" icon> <v-icon color="red">remove</v-icon> </v-btn> 
+            <v-btn v-else @click="removeOne(item)" class="mr-n4" icon> <v-icon color="red">remove</v-icon> </v-btn> 
         </template>
 
         <template v-slot:item.total="{ item }">
@@ -60,9 +60,9 @@
         </template>
 
         <template v-slot:item.actions="{ item }">
-            <v-btn icon :to="`/productInfo/${item.id}`"> <v-icon color="green">info</v-icon> </v-btn>
-            <v-btn icon @click="getProduct(item);dialogEdit = true;"> <v-icon color="green">edit</v-icon> </v-btn>
-            <v-btn icon @click="getDelete(item)"> <v-icon color="green"> delete</v-icon> </v-btn>
+            <v-btn icon :to="`/productInfo/${item.id}`"> <v-icon color="blue darken-1">info</v-icon> </v-btn>
+            <v-btn icon @click="getProduct(item);dialogEdit = true;"> <v-icon>edit</v-icon> </v-btn>
+            <v-btn icon @click="getDelete(item)"> <v-icon color="red lighten-1 "> delete</v-icon> </v-btn>
         </template>
     </v-data-table>
 
