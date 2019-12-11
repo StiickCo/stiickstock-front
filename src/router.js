@@ -5,6 +5,7 @@ import Login from './views/Login.vue'
 import PasswordRecovery from './views/PasswordRecovery.vue'
 import Signup from './views/Signup.vue'
 import ProductList from './views/ProductList.vue'
+import ProductInfo from './views/ProductInfo.vue'
 import Callback from './views/Callback.vue';
 import NotLogged from './views/NotLogged.vue';
 import NotFound from './views/NotFound.vue';
@@ -28,6 +29,11 @@ routes:  [
     path: '/products',
     name: 'products',
     component: ProductList
+  },
+  {
+    path: '/productInfo/:id',
+    name: 'productInfo',
+    component: ProductInfo
   },
   {
     path: '/login/recovery',
