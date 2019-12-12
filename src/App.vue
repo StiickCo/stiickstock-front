@@ -1,12 +1,13 @@
 <template>
   <v-app>
-    <Header />
+    <Header/>
     <v-content class="ma-5">
       <div>
         <router-view></router-view>
       </div>
     </v-content>
-    <Footer/>
+    <Footer />
+    
   </v-app>
 </template>
 

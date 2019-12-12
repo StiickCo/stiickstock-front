@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="mt-12">
     <v-card-title>
       <!-- Estoque -->
       <v-spacer></v-spacer>
