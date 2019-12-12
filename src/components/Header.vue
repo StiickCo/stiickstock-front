@@ -1,30 +1,83 @@
 <template>
   <div >
       
-    <v-toolbar class="mt-n4 pt-2" color="green darken-1" dark v-if="this.$auth.isAuthenticated()">
+    <v-toolbar :style="{'position':'fixed', 'z-index':'88'}" class="mt-n4 pt-2" width="100%" color="green darken-1" dark v-if="this.$auth.isAuthenticated()">
      
+      
+
+      <v-btn tile icon @click="drawerMini = !drawerMini">
+          <v-icon>menu</v-icon>
+        </v-btn>
       <v-header bottom class="display-1" v-if="profile">StiickStock</v-header>
 
-      <v-spacer></v-spacer>
-        <v-toolbar-items>
-        <v-btn icon @click="dialogProfile = true">
-          <v-icon>person</v-icon>
-        </v-btn>
-        <v-btn icon @click="logout">
-          <v-icon>exit_to_app</v-icon>
-        </v-btn>        
-        </v-toolbar-items>
- 
-
     </v-toolbar>
-   <v-navigation-drawer v-model="dialogProfile" absolute temporary right>
+
+   <v-navigation-drawer permanent mobile-break-point=0 app class="mt-11" mini-variant-width="60" :mini-variant.sync="drawerMini" width="220">
+      <v-list>
+      <v-list-item class="mt-n2" to="/">
+        <v-list-item-content>
+          <v-icon>home</v-icon>
+        </v-list-item-content>
+        <v-list-item-content>
+          Inicio
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+
+      <v-list-item to="/products">
+        <v-list-item-content>
+          <v-icon>shopping_basket</v-icon>
+        </v-list-item-content>
+        <v-list-item-content>
+          Produtos
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+      
+      <v-list-item @click="dialogProfile = !dialogProfile">
+        <v-list-item-content>
+            <v-icon>person</v-icon>
+        </v-list-item-content>
+        <v-list-item-content>
+          Perfil
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+      
+      <v-list-item @click="logout()">
+        <v-list-item-content>
+            <v-icon>exit_to_app</v-icon>
+        </v-list-item-content>
+        <v-list-item-content>
+          Sair
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+
+      <v-list-item @click="switchMode()">
+        <v-list-item-content>
+            <v-icon>wb_sunny</v-icon>
+        </v-list-item-content>
+        <v-list-item-content>
+          Tema escuro
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-navigation-drawer class="mt-10" v-model="dialogProfile" absolute temporary >
       <v-list-item>
         <v-list-item-avatar>
           <v-img :src="`${user.picture}`"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>{{user.nickname}}</v-list-item-title>
+          {{user.nickname}}
+        </v-list-item-content>
+        <v-spacer></v-spacer>
+        <v-list-item-content>
+          <v-btn @click="dialogProfile = false" icon rounded><v-icon>close</v-icon></v-btn>
         </v-list-item-content>
       </v-list-item>
 
@@ -38,6 +91,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    
   </div>
   
 </template>
@@ -58,6 +112,7 @@ import auth from "@/auth.js";
         ],
 
       dialogProfile: false,
+      drawerMini: true,
       extended: false,
       extendedSlot: false,
       prominent: false,
@@ -78,6 +133,9 @@ import auth from "@/auth.js";
       },
       getWidth(){
         this.wWidth = window.innerWidth;
+      },
+      switchMode(){
+        this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
       }
     },
       
