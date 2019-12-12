@@ -12,6 +12,7 @@
 
     </v-toolbar>
 
+    <!-- ***** MENU ***** -->
    <v-navigation-drawer permanent mobile-break-point=0 app class="mt-11" mini-variant-width="60" :mini-variant.sync="drawerMini" width="220">
       <v-list>
       <v-list-item class="mt-n2" to="/">
@@ -66,7 +67,9 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-navigation-drawer :style="{'z-index':'88'}" v-model="dialogProfile" absolute temporary >
+
+  <!-- ***** PROFILE CARD ***** -->
+    <v-navigation-drawer :style="{'position':'fixed','z-index':'88'}" v-model="dialogProfile" absolute temporary >
       <v-list-item>
         <v-list-item-avatar>
           <v-img :src="`${user.picture}`"></v-img>
