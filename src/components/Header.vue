@@ -1,26 +1,29 @@
 <template>
   <div v-if="this.$auth.isAuthenticated()">
       
-    <v-toolbar :style="{'position':'fixed', 'z-index':'88'}" class="mt-n4 pt-2" width="100%" color="green darken-1" dark>
+    <v-toolbar :style="{'position':'fixed', 'z-index':'88'}" class="mt-n2" width="100%" color="green darken-1" dark>
      
-      
-
-      <v-btn tile icon @click="drawerMini = !drawerMini">
-          <v-icon>menu</v-icon>
-        </v-btn>
+     
       <v-header bottom class="display-1" v-if="profile">StiickStock</v-header>
+      <v-spacer></v-spacer>
+      
+      <!-- ***** MENU DESKTOP ***** -->
+        <v-toolbar-items class="d-none d-sm-flex">
+        <v-btn text to="/"> <v-icon>home</v-icon> Inicio</v-btn>
+        <v-btn text to="/products"> <v-icon>shopping_basket</v-icon> Produtos  </v-btn>  
+        <v-btn text @click="dialogProfile = true"><v-icon>person</v-icon>Perfil </v-btn>
+        <v-btn text @click="logout"><v-icon>exit_to_app</v-icon>Sair</v-btn>        
+        </v-toolbar-items>
 
     </v-toolbar>
 
-    <!-- ***** MENU ***** -->
-   <v-navigation-drawer permanent mobile-break-point=0 app class="mt-11" mini-variant-width="60" :mini-variant.sync="drawerMini" width="220">
+    <!-- ***** MENU MOBILE ***** -->
+   <v-navigation-drawer  mobile-break-point=0 :app="mobile" class="d-sm-none text-center mt-11 pl-1 ml-n4" width="100">
       <v-list>
-      <v-list-item class="mt-n2" to="/">
+      <v-list-item class="" to="/">
         <v-list-item-content>
           <v-icon>home</v-icon>
-        </v-list-item-content>
-        <v-list-item-content>
-          Inicio
+          <span>Inicio</span>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
@@ -28,9 +31,7 @@
       <v-list-item to="/products">
         <v-list-item-content>
           <v-icon>shopping_basket</v-icon>
-        </v-list-item-content>
-        <v-list-item-content>
-          Produtos
+          <span>Produtos</span>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
@@ -38,9 +39,7 @@
       <v-list-item @click="dialogProfile = !dialogProfile">
         <v-list-item-content>
             <v-icon>person</v-icon>
-        </v-list-item-content>
-        <v-list-item-content>
-          Perfil
+          <span>Perfil</span>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
@@ -48,28 +47,16 @@
       <v-list-item @click="logout()">
         <v-list-item-content>
             <v-icon>exit_to_app</v-icon>
-        </v-list-item-content>
-        <v-list-item-content>
-          Sair
+            <span>Sair</span>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
-
-      <v-list-item @click="switchMode()">
-        <v-list-item-content>
-            <v-icon>wb_sunny</v-icon>
-        </v-list-item-content>
-        <v-list-item-content>
-          Tema escuro
-        </v-list-item-content>
-      </v-list-item>
       <v-divider></v-divider>
       </v-list>
     </v-navigation-drawer>
 
-
   <!-- ***** PROFILE CARD ***** -->
-    <v-navigation-drawer :style="{'position':'fixed','z-index':'88'}" v-model="dialogProfile" absolute temporary >
+    <v-navigation-drawer class="mt-11 pt-2" :style="{'position':'fixed','z-index':'8'}" v-model="dialogProfile" :right="!mobile" temporary height="300" width="200">
       <v-list-item>
         <v-list-item-avatar>
           <v-img :src="`${user.picture}`"></v-img>
@@ -86,15 +73,22 @@
 
       <v-divider></v-divider>
       <v-list>
-
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title> <v-icon color="green">email</v-icon>  {{ user.name }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-divider></v-divider>
+
       </v-list>
+      <template v-slot:append>
+        <v-divider></v-divider>
+        <div class="pl-4 pb-1">
+          <v-btn text @click="switchMode()"><v-icon>wb_sunny</v-icon> Tema escuro</v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
-    
+
   </div>
   
 </template>
@@ -121,12 +115,12 @@ import auth from "@/auth.js";
       extendedSlot: false,
       prominent: false,
       dense: false,
+      mobile:false,
       collapse: false,
       flat: false,
       bg: false,
       extensionHeight: 48,
       user: [],
-      wWidth: 0,
     }),
     methods: {
       logout(){
@@ -136,7 +130,10 @@ import auth from "@/auth.js";
         this.user = JSON.parse(localStorage.getItem('user'));
       },
       getWidth(){
-        this.wWidth = window.innerWidth;
+        let wWidth = window.innerWidth;
+        if (wWidth < 600){
+          this.mobile = true;
+        }
       },
       switchMode(){
         this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
