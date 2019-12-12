@@ -52,7 +52,7 @@
         </template>
 
         <template v-slot:item.total="{ item }">
-            <span>{{ item.total = (item.price * item.quantity).toLocaleString() }}</span>
+            <span>{{ item.total = (item.price * item.quantity) }}</span>
         </template>
 
         <template v-slot:expanded-item="{ item }">
