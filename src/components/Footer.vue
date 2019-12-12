@@ -2,7 +2,7 @@
   <div>  
     <v-footer fixed :style="{'z-index':'88'}" color="green darken-1" dark>
       <v-spacer></v-spacer>
-      <span>Stiick Co. &copy; 2019</span>
+      <span class="subtitle-1">Stiick Co. &copy; 2019</span>
       <v-spacer></v-spacer>
     </v-footer>
 
