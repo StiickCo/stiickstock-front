@@ -14,7 +14,7 @@
                 <v-btn color="green darken-2" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
             </template>
             <v-card>
-                <v-card-title class="headline grey lighten-2" primary-title>Adicionar novo produto</v-card-title>
+                <v-card-title class="headline green lighten-2" primary-title>Adicionar novo produto</v-card-title>
 
                 <v-card-text>
                 <v-text-field required label="Nome do produto" v-model='product.name'></v-text-field>
@@ -52,7 +52,7 @@
         </template>
 
         <template v-slot:item.total="{ item }">
-            <span>{{ item.total = (item.price * item.quantity).toLocaleString() }}</span>
+            <span>{{ item.total = (item.price * item.quantity) }}</span>
         </template>
 
         <template v-slot:expanded-item="{ item }">
@@ -70,7 +70,7 @@
         <!-- Delete -->
         <v-dialog v-model="dialogDelete" width="500">
             <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>Deletar produto</v-card-title>
+            <v-card-title class="headline green lighten-2" primary-title>Deletar produto</v-card-title>
     
             <v-card-text class="subtitle-1">Deseja mesmo deletar o produto "{{ prodDeleteName }}"?</v-card-text>
             <v-divider></v-divider>
@@ -85,7 +85,7 @@
         <!-- Edit -->
         <v-dialog v-model="dialogEdit" width="500">
             <v-card>
-                <v-card-title class="headline grey lighten-2" primary-title>Editar produto</v-card-title>
+                <v-card-title class="headline green lighten-2" primary-title>Editar produto</v-card-title>
                 <v-card-text>
                 <v-text-field required label="Nome do produto" v-model='product.name'></v-text-field>
                 <v-text-field type='number' step='0.01' label="Preço unitário" prefix="R$" v-model='product.price'></v-text-field>
