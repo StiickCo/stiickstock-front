@@ -107,6 +107,7 @@ import auth from "@/auth.js";
     mounted () {
       this.getuserData();
       this.getWidth();
+      this.getMode();
     },
     data: () => ({
       items: [
@@ -139,6 +140,11 @@ import auth from "@/auth.js";
       },
       switchMode(){
         this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+        localStorage.setItem('darkMode', this.$vuetify.theme.dark);
+      },
+      getMode(){
+        this.$vuetify.theme.dark = JSON.parse(localStorage.getItem('darkMode'));
+        console.log(this.$vuetify.theme.dark);        
       }
     },
       
