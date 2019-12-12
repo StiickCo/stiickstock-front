@@ -1,7 +1,7 @@
 <template>
-  <div >
+  <div v-if="this.$auth.isAuthenticated()">
       
-    <v-toolbar :style="{'position':'fixed', 'z-index':'88'}" class="mt-n4 pt-2" width="100%" color="green darken-1" dark v-if="this.$auth.isAuthenticated()">
+    <v-toolbar :style="{'position':'fixed', 'z-index':'88'}" class="mt-n4 pt-2" width="100%" color="green darken-1" dark>
      
       
 
