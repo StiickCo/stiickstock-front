@@ -66,7 +66,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-navigation-drawer class="mt-10" v-model="dialogProfile" absolute temporary >
+    <v-navigation-drawer :style="{'z-index':'88'}" v-model="dialogProfile" absolute temporary >
       <v-list-item>
         <v-list-item-avatar>
           <v-img :src="`${user.picture}`"></v-img>
