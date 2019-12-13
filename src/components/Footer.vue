@@ -1,11 +1,6 @@
 <template>
-  <div>  
-    <v-footer fixed :style="{'z-index':'88'}" color="green darken-1" dark>
-      <v-spacer></v-spacer>
-      <span class="subtitle-1">Stiick Co. &copy; 2019</span>
-      <v-spacer></v-spacer>
-    </v-footer>
-
+  <div class="text-right">  
+      <span class="subtitle-1"><v-spacer></v-spacer>Stiick Co. &copy; 2019</span>
   </div>
   
 </template>
