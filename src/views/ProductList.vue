@@ -1,4 +1,6 @@
 <template>
+<div>
+  <!-- <Header/> -->
   <v-card>
     <v-card-title>
       <!-- Estoque -->
@@ -101,6 +103,7 @@
             </v-card>
         </v-dialog>
   </v-card>
+</div>
 </template>
 <script>
 import { APIService } from "@/resources/products.js";

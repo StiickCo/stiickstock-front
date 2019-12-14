@@ -1,6 +1,6 @@
 <template>
   <div class="text-right">  
-      <span class="subtitle-1"><v-spacer></v-spacer>Stiick Co. &copy; 2019</span>
+      <span class="subtitle-1"><v-spacer></v-spacer>Stiick Co. <span @click="switchMode()">&copy;</span> 2019</span>
   </div>
   
 </template>
@@ -11,41 +11,22 @@ import auth from "@/auth.js";
 
   export default {
     mounted () {
-      this.getuserData();
-      this.getWidth();
+      this.getMode();
+
     },
     data: () => ({
-      items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' },
-        ],
 
-      dialogProfile: false,
-      extended: false,
-      extendedSlot: false,
-      prominent: false,
-      dense: false,
-      collapse: false,
-      flat: false,
-      bg: false,
-      extensionHeight: 48,
-      user: [],
-      wWidth: 0,
     }),
     methods: {
-      logout(){
-        this.$auth.logout();
+       switchMode(){
+        this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+        localStorage.setItem('darkMode', this.$vuetify.theme.dark);
       },
-      getuserData(){
-        this.user = JSON.parse(localStorage.getItem('user'));
-      },
-      getWidth(){
-        this.wWidth = window.innerWidth;
+      getMode(){
+        this.$vuetify.theme.dark = JSON.parse(localStorage.getItem('darkMode'));
+        console.log(this.$vuetify.theme.dark);        
       }
     },
-      
-    computed: {
-      ...mapState(["profile"])
-    }
+
   }
 </script>

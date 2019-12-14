@@ -1,65 +1,79 @@
 <template>
   <div v-if="this.$auth.isAuthenticated()">
       
-    <v-toolbar :style="{'position':'fixed', 'z-index':'88'}" class="mt-n2" width="100%" color="green darken-1" dark>
+    <v-toolbar fixed app  width="100%" light>
      
-     
-      <v-header bottom class="display-1" v-if="profile">StiickStock</v-header>
+      <v-btn icon @click="drawerMini = !drawerMini">
+          <v-icon>menu</v-icon>
+        </v-btn>
+      <v-header bottom class="headline" v-if="profile"> StiickStock</v-header>
+
       <v-spacer></v-spacer>
       
       <!-- ***** MENU DESKTOP ***** -->
         <v-toolbar-items class="d-none d-sm-flex">
-        <v-btn text to="/"> <v-icon>home</v-icon> Inicio</v-btn>
-        <v-btn text to="/products"> <v-icon>shopping_basket</v-icon> Produtos  </v-btn>
-        <v-btn text @click="dialogTeams = true"><v-icon>group</v-icon>Teams </v-btn>
-        <v-btn text @click="dialogProfile = true"><v-icon>person</v-icon>Perfil </v-btn>
-        <v-btn text @click="logout"><v-icon>exit_to_app</v-icon>Sair</v-btn>        
+          
+        <v-btn icon @click="dialogTeams = true"><v-icon>group</v-icon> </v-btn>
+        <v-btn icon @click="dialogProfile = true"><v-icon>person</v-icon> </v-btn>
+        <v-btn icon @click="logout"><v-icon>exit_to_app</v-icon></v-btn>        
         </v-toolbar-items>
 
     </v-toolbar>
 
-    <!-- ***** MENU MOBILE ***** -->
-   <v-navigation-drawer  mobile-break-point=0 :app="mobile" class="d-sm-none text-center mt-11 pl-1 ml-n4" width="100">
-      <v-list>
-      <v-list-item class="" to="/">
+    <!-- ***** NEW MENU ? ***** -->
+   <v-navigation-drawer  fixed mobile-break-point=0 v-model="drawerMini" color="blue-grey darken-1" :app="true" class="" >
+      <v-toolbar flat dark color="blue-grey darken-2">
+        <v-list>
+            <v-list-item>
+        <v-list-item-avatar>
+          <v-img :src="`${user.picture}`"></v-img>
+        </v-list-item-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>{{user.nickname}}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-item>
+
+        </v-list>
+      </v-toolbar>
+      <v-list dark class="pt-0">
+              <v-divider></v-divider>
+
+      <v-list-item  to="/">
         <v-list-item-content>
           <v-icon>home</v-icon>
-          <span>Inicio</span>
         </v-list-item-content>
+        <v-list-item-content>Inicio</v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
 
       <v-list-item to="/products">
         <v-list-item-content>
           <v-icon>shopping_basket</v-icon>
-          <span>Produtos</span>
         </v-list-item-content>
+        <v-list-item-content>Produtos</v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
       
       <v-list-item @click="dialogProfile = !dialogProfile">
         <v-list-item-content>
             <v-icon>person</v-icon>
-          <span>Perfil</span>
         </v-list-item-content>
+        <v-list-item-content>Perfil</v-list-item-content>
       </v-list-item>
 
       <v-list-item @click="dialogTeams = !dialogTeams">
         <v-list-item-content>
-            <v-icon>person</v-icon>
-          <span>Perfil</span>
+            <v-icon>group</v-icon>
         </v-list-item-content>
+        <v-list-item-content>Times</v-list-item-content>
       </v-list-item>
-      <v-divider></v-divider>
-      
+     
       <v-list-item @click="logout()">
         <v-list-item-content>
             <v-icon>exit_to_app</v-icon>
-            <span>Sair</span>
         </v-list-item-content>
+        <v-list-item-content>Sair</v-list-item-content>
       </v-list-item>
-      <v-divider></v-divider>
-      <v-divider></v-divider>
       </v-list>
     </v-navigation-drawer>
 
@@ -89,12 +103,6 @@
         <v-divider></v-divider>
 
       </v-list>
-      <template v-slot:append>
-        <v-divider></v-divider>
-        <div class="pl-4 pb-1">
-          <v-btn text @click="switchMode()"><v-icon>wb_sunny</v-icon> Tema escuro</v-btn>
-        </div>
-      </template>
     </v-navigation-drawer>
 
     <v-navigation-drawer class="mt-12 pt-2" :style="{'position':'fixed','z-index':'8'}" v-model="dialogTeams" :right="!mobile" temporary height="90" width="200">
@@ -114,7 +122,6 @@ import auth from "@/auth.js";
     mounted () {
       this.getuserData();
       this.getWidth();
-      this.getMode();
     },
     data: () => ({
       items: [
@@ -149,14 +156,7 @@ import auth from "@/auth.js";
           this.mobile = true;
         }
       },
-      switchMode(){
-        this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-        localStorage.setItem('darkMode', this.$vuetify.theme.dark);
-      },
-      getMode(){
-        this.$vuetify.theme.dark = JSON.parse(localStorage.getItem('darkMode'));
-        console.log(this.$vuetify.theme.dark);        
-      }
+
     },
       
     computed: {
