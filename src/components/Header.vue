@@ -3,7 +3,7 @@
       
     <v-toolbar fixed app  width="100%" light>
      
-      <v-btn icon @click="drawerMini = !drawerMini">
+      <v-btn icon @click="drawerMini = !drawerMini; storeDrawerState()">
           <v-icon>menu</v-icon>
         </v-btn>
       <v-header bottom class="headline" v-if="profile"> StiickStock</v-header>
@@ -63,6 +63,7 @@ import auth from "@/auth.js";
     mounted () {
       this.getuserData();
       this.getWidth();
+      this.getDrawerState();
     },
     data: () => ({
       items: [
@@ -72,7 +73,7 @@ import auth from "@/auth.js";
 
       dialogProfile: false,
       dialogTeams: false,
-      drawerMini: true,
+      drawerMini: false,
       extended: false,
       extendedSlot: false,
       prominent: false,
@@ -97,6 +98,12 @@ import auth from "@/auth.js";
           this.mobile = true;
         }
       },
+      storeDrawerState(){
+        localStorage.setItem('drawerShow', this.drawerMini);
+      },
+      getDrawerState(){
+        this.drawerMini = JSON.parse(localStorage.getItem('drawerShow'));
+        }
 
     },
       
