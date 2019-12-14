@@ -1,7 +1,8 @@
 <template>
   <v-app>
-    <Header/>
+    
     <v-content class="ma-5">
+      <Header class="ma-n5"/>
       <div>
         <router-view class="mt-12"></router-view>
       </div>
