@@ -136,7 +136,7 @@ import auth from "@/auth.js";
         if (wWidth < 600){
           this.mobile = true;
         }
-      },
+      }
 
     },
       
