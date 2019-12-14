@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-12" v-if="product">
+  <v-card v-if="product">
     <v-card-title class="headline">{{product.name}}</v-card-title>
 
     <v-card-text>

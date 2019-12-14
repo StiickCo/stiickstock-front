@@ -10,7 +10,8 @@
       <!-- ***** MENU DESKTOP ***** -->
         <v-toolbar-items class="d-none d-sm-flex">
         <v-btn text to="/"> <v-icon>home</v-icon> Inicio</v-btn>
-        <v-btn text to="/products"> <v-icon>shopping_basket</v-icon> Produtos  </v-btn>  
+        <v-btn text to="/products"> <v-icon>shopping_basket</v-icon> Produtos  </v-btn>
+        <v-btn text @click="dialogTeams = true"><v-icon>group</v-icon>Teams </v-btn>
         <v-btn text @click="dialogProfile = true"><v-icon>person</v-icon>Perfil </v-btn>
         <v-btn text @click="logout"><v-icon>exit_to_app</v-icon>Sair</v-btn>        
         </v-toolbar-items>
@@ -42,6 +43,13 @@
           <span>Perfil</span>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item @click="dialogTeams = !dialogTeams">
+        <v-list-item-content>
+            <v-icon>person</v-icon>
+          <span>Perfil</span>
+        </v-list-item-content>
+      </v-list-item>
       <v-divider></v-divider>
       
       <v-list-item @click="logout()">
@@ -56,7 +64,7 @@
     </v-navigation-drawer>
 
   <!-- ***** PROFILE CARD ***** -->
-    <v-navigation-drawer class="mt-11 pt-2" :style="{'position':'fixed','z-index':'8'}" v-model="dialogProfile" :right="!mobile" temporary height="300" width="200">
+    <v-navigation-drawer class="mt-12 pt-2" :style="{'position':'fixed','z-index':'8'}" v-model="dialogProfile" :right="!mobile" temporary height="300" width="200">
       <v-list-item>
         <v-list-item-avatar>
           <v-img :src="`${user.picture}`"></v-img>
@@ -89,6 +97,11 @@
       </template>
     </v-navigation-drawer>
 
+    <v-navigation-drawer class="mt-12 pt-2" :style="{'position':'fixed','z-index':'8'}" v-model="dialogTeams" :right="!mobile" temporary height="90" width="200">
+      <v-btn text to="/teams"> <v-icon>group</v-icon> Times  </v-btn>
+      <v-btn text to="/teams/add"> <v-icon>group_add</v-icon> Adicionar times  </v-btn>
+    </v-navigation-drawer>
+
   </div>
   
 </template>
@@ -110,6 +123,7 @@ import auth from "@/auth.js";
         ],
 
       dialogProfile: false,
+      dialogTeams: false,
       drawerMini: true,
       extended: false,
       extendedSlot: false,

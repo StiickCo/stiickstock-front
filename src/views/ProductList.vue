@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-12">
+  <v-card>
     <v-card-title>
       <!-- Estoque -->
       <v-spacer></v-spacer>
@@ -29,7 +29,6 @@
                 <v-btn color="blue darken-2" @click="addProduct(product)" text>Adicionar produto</v-btn>
                 <v-btn color="red" text @click="dialogAdd = false">Cancelar</v-btn>
                 </v-card-actions>
-                
                 
             </v-card>
             </v-dialog>

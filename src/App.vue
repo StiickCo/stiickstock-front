@@ -3,7 +3,7 @@
     <Header/>
     <v-content class="ma-5">
       <div>
-        <router-view></router-view>
+        <router-view class="mt-12"></router-view>
       </div>
     </v-content>
     <Footer />
