@@ -4,10 +4,18 @@
   <v-card>
     <v-card-title>
       <!-- Estoque -->
+      <v-col>
+      <v-row>
+      <v-switch inset v-model="filterStock" label="Ocultar produtos sem estoque"></v-switch>
+      </v-row>
+      <v-row>
+      <v-switch inset v-model="filterID" label="Ocultar ID dos produtos"></v-switch>
+      </v-row>
+      </v-col>
       <v-spacer></v-spacer>
       <v-text-field v-model="search" label="Procurar" single-line hide-details></v-text-field>
     </v-card-title>
-    <v-data-table :headers="headers" :items="products" :search="search"  :single-expand=true show-expand>  
+    <v-data-table :headers="computedHeaders" :items="computedProducts" :search="search"  :single-expand=true show-expand>  
 
     <template v-slot:top>
         <div class="text-right mr-4">
@@ -132,7 +140,10 @@ export default {
         },
         prodDeleted: 0,
         search: '',
-        headers: [{ text: 'Nome do produto', value: 'name'},
+        filterStock: false,
+        filterID: true,
+        headers: [{ text: 'ID', value: 'id'},
+            { text: 'Nome do produto', value: 'name'},
           { text: 'Preço por item', value: 'price' },
           { text: '', value: 'plus', align:'end', width:'150',sortable: false},
           { text: 'Estoque atual', value: 'quantity', align: 'center', width:'130 '},
@@ -201,10 +212,21 @@ export default {
         getWindow(){
             this.wWidth = window.innerWidth;
             this.wHeight = window.innerHeight;
-        }
+        },
     },
-    props:{
-        item: Object
+    computed: {
+        computedProducts(){
+            if (this.filterStock){
+                return this.products.filter(products => products.quantity != 0);
+            }
+            return this.products;
+        },
+        computedHeaders(){
+            if (this.filterID){
+                return this.headers.filter(headers => headers.text != "ID");
+            }
+            return this.headers;
+        }
     }
 }
 </script>
