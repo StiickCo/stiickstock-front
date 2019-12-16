@@ -8,6 +8,18 @@
           </div>
           <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
           </v-layout>
+          <v-snackbar
+            v-model="snackbar"
+          >
+            {{ text }}
+            <v-btn
+              color="white"
+              text
+              @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </v-snackbar>
 
           <v-layout align-center justify-center row>
             <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
