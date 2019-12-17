@@ -49,10 +49,11 @@ import auth from "@/auth.js";
         this.$auth.logout();
       },
       storeDrawerState(){
-        localStorage.setItem('drawerShow', this.drawerMini);
+          localStorage.setItem('drawerShow', this.drawerMini);
       },
       getDrawerState(){
-        this.drawerMini = JSON.parse(localStorage.getItem('drawerShow'));
+          let drawer = JSON.parse(localStorage.getItem('drawerShow'));
+          drawer == null ? this.storeDrawerState(): this.drawerMini = drawer;
         }
 
     },
