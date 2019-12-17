@@ -114,7 +114,7 @@
 </div>
 </template>
 <script>
-import { APIService } from "@/resources/products.js";
+import { APIService } from "@/resources/api.js";
 const api = new APIService();
 
 export default {
@@ -180,7 +180,7 @@ export default {
 
         },
         async addProduct(item){
-            let res = await api.save(item).then(data => {
+            let res = await api.saveProduct(item).then(data => {
               if (data.status == '200') {
                 this.getProducts();
                 this.dialogAdd = false;

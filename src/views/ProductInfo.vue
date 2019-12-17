@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { APIService } from "@/resources/products.js";
+import { APIService } from "@/resources/api.js";
 const api = new APIService();
 
 export default {
@@ -68,7 +68,7 @@ export default {
 }
 </script>
 <script>
-import { APIService } from "@/resources/products.js";
+import { APIService } from "@/resources/api.js";
 const api = new APIService();
 
 export default {
