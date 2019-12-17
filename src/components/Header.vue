@@ -6,7 +6,9 @@
       <v-btn icon @click="drawerMini = !drawerMini; storeDrawerState()">
           <v-icon>menu</v-icon>
         </v-btn>
-      <v-header bottom class="headline" v-if="profile"> StiickStock</v-header>
+      <v-header bottom class="headline" v-if="profile"> 
+          <span id="stiick" class="header font-weight-medium">Stiick</span><span id="stock" class="header font-weight-thin">Stock </span> 
+        </v-header>
 
       <v-spacer></v-spacer>
 
@@ -62,3 +64,9 @@ import auth from "@/auth.js";
     }
   }
 </script>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:100,200,500,600,700&display=swap');
+.header{
+    font-family: 'Encode Sans Semi Condensed', sans-serif;
+}
+</style> 
