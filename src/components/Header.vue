@@ -12,7 +12,6 @@
       <v-spacer></v-spacer>
 
         <Cards/> <!-- TEAMS AND PROFILE -->
-        <v-btn icon @click="logout"><v-icon>exit_to_app</v-icon></v-btn>
     </v-toolbar>
 
     <Menu :menu="drawerMini"/>
