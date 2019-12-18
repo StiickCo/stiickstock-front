@@ -114,7 +114,7 @@
 </div>
 </template>
 <script>
-import { APIService } from "@/resources/api.js";
+import { APIService } from "../resources/api";
 const api = new APIService();
 
 export default {

@@ -1,7 +1,7 @@
 <template>
     <v-card style="width: 100%; height: 85vh; padding: 1rem">
         <div class="text-right mr-4">
-            <v-btn color="green darken-2" :to="`/teams/add`" dark>Adicionar novo time</v-btn>
+            <v-btn color="green darken-2" :to="`/teams/add`" dark>Criar novo time</v-btn>
         </div>
         
         <v-data-table style="padding: 1rem; margin: 1rem 0 0 0" :headers="computedHeaders" :items="computedTeams"  show-expand>  
@@ -27,36 +27,13 @@
         </v-data-table>
     </v-card>
 </template>
-
 <script>
-import { APIService } from "@/resources/api.js";
+import { APIService } from "../resources/api";
 const api = new APIService();
 export default {
     name: "Teams",
     mounted () {
-      this.getProduct()
-    },
-    data () {
-      return {
-        product: []
-      }
-    },
-    methods:{
-        getProduct(){
-			api.findByIdProduct(this.$route.params.id).then(data => {
-				this.product = data;
-			});
-        }
-    },
-}
-</script>
-<script>
-import { APIService } from "@/resources/products.js";
-const api = new APIService();
-export default {
-    name: "Teams",
-    mounted () {
-      this.getProduct()
+      this.getTeams()
     },
     data () {
       return {
@@ -71,11 +48,11 @@ export default {
       }
     },
     methods:{
-        getProduct(){
-			api.findByIdProduct(this.$route.params.id).then(data => {
-				this.product = data;
-			});
-        }
+        getTeams() {
+          let res = api.findAllTeam().then(data => {
+            this.teams = data;
+          });
+        },
     },
     computed: {
         computedTeams(){

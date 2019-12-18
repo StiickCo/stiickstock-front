@@ -44,31 +44,7 @@
 </template>
 
 <script>
-import { APIService } from "@/resources/api.js";
-const api = new APIService();
-
-export default {
-    name: "ProductInfo",
-    mounted () {
-      this.getProduct()
-    },
-    data () {
-      return {
-        product: []
-      }
-    },
-    methods:{
-        getProduct(){
-			api.findByIdProduct(this.$route.params.id).then(data => {
-				this.product = data;
-			});
-        }
-    },
-
-}
-</script>
-<script>
-import { APIService } from "@/resources/api.js";
+import { APIService } from "../resources/api";
 const api = new APIService();
 
 export default {
