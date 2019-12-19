@@ -9,9 +9,9 @@
         <v-list-item-avatar>
           <v-img :src="`${user.picture}`"></v-img>
         </v-list-item-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>{{user.nickname}}</v-list-tile-title>
-              </v-list-tile-content>
+              <v-list-item-content>
+                <v-list-item-title>{{user.nickname}}</v-list-item-title>
+              </v-list-item-content>
             </v-list-item>
 
         </v-list>

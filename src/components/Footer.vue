@@ -6,9 +6,6 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import auth from "@/auth.js";
-
   export default {
     mounted () {
       this.getMode();
@@ -24,7 +21,6 @@ import auth from "@/auth.js";
       },
       getMode(){
         this.$vuetify.theme.dark = JSON.parse(localStorage.getItem('darkMode'));
-        console.log(this.$vuetify.theme.dark);        
       }
     },
 

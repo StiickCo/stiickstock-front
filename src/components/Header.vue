@@ -1,19 +1,17 @@
 <template>
   <div v-if="this.$auth.isAuthenticated()">
       
-    <v-toolbar fixed app  width="100%" light>
+    <v-toolbar fixed width="100%" light>
      
       <v-btn icon @click="drawerMini = !drawerMini; storeDrawerState()">
           <v-icon>menu</v-icon>
         </v-btn>
-      <v-header bottom class="headline" v-if="profile"> 
-          <span id="stiick" class="header font-weight-medium">Stiick</span><span id="stock" class="header font-weight-thin">Stock </span> 
-        </v-header>
-
+        <v-toolbar-title class="headline">
+            <span id="stiick" class="header font-weight-medium">Stiick</span><span id="stock" class="header font-weight-thin">Stock </span> 
+        </v-toolbar-title>
       <v-spacer></v-spacer>
 
         <Cards/> <!-- TEAMS AND PROFILE -->
-        <v-btn icon @click="logout"><v-icon>exit_to_app</v-icon></v-btn>
     </v-toolbar>
 
     <Menu :menu="drawerMini"/>
