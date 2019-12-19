@@ -1,5 +1,10 @@
 <template>
-  <h5 class="text-center">Welcome</h5>
+    <div>
+        <h5 class="text-center headline">Dados</h5>
+        <chart-ProductAdded/>
+        <chart-ProductSold/>
+        <chart-Emails/>
+    </div>
 </template>
 
 <script>
