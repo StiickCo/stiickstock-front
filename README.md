@@ -10,6 +10,7 @@ In this project, the main technologies used were:
 * NPM
 * Vuetify
 * Vue Material
+* Vue-ChartJS
 
 
 ## Project setup
