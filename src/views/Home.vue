@@ -6,9 +6,9 @@
                 <v-btn class="mx-8" @click="activateChart('chartSold')">Produtos vendidos</v-btn>
                 <v-btn @click="activateChart('chartEmail')">Emails registrados</v-btn>
             </v-list>
-        <chart-ProductAdded v-if="chartAdded"/>
-        <chart-ProductSold v-if="chartSold"/>
-        <chart-Emails v-if="chartEmail"/>
+        <chart-ProductAdded :background="chartAdded.color" :values="chartAdded.data" v-if="chartAdded.show"/>
+        <chart-ProductSold :background="chartSold.color" :values="chartSold.data" v-if="chartSold.show"/>
+        <chart-Emails :background="chartEmail.color" :values="chartEmail.data" v-if="chartEmail.show"/>
     </div>
 </template>
 
@@ -17,17 +17,29 @@
 export default {
     data(){
         return{
-            chartAdded: true,
-            chartSold: false,
-            chartEmail: false,
+            chartAdded:{
+                show: true,
+                color: '#890F0F99',
+                data: []
+            },
+            chartSold:{
+                show: false,
+                color: '#890F0F99',
+                data: []
+            },
+            chartEmail:{
+                show: false,
+                color: '#890F0F99',
+                data: []
+            }
         }
     },
     methods:{
         activateChart(chart){
-            this.chartAdded= false;
-            this.chartSold= false;
-            this.chartEmail= false;
-            this[chart] = !this[chart];            
+            this.chartAdded.show= false;
+            this.chartSold.show= false;
+            this.chartEmail.show= false;
+            this[chart].show = !this[chart].show;
         },
     }
 };

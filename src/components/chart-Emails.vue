@@ -10,16 +10,16 @@ export default {
       datasets: [
         {
           label: 'Emails registrados',
-          backgroundColor: '#AA9508',
-          data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+          backgroundColor: this.background,
+          data: this.values
         }
       ]
     }
  }
   },
   mounted () {
-    // Overwriting base render method with actual data.
     this.renderChart(this.chart, {responsive: true, maintainAspectRatio: false})
-  }
+  },
+  props:['background', 'values']
 }
 </script>

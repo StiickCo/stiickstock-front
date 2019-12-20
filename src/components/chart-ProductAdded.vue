@@ -10,16 +10,16 @@ export default {
       datasets: [
         {
           label: 'Produtos adicionados',
-          backgroundColor: '#3F897A',
-          data: [19, 33, 15, 39, 11, 9, 22, 50, 99, 20, 12, 11]
+          backgroundColor: this.background,
+          data: this.values
         }
       ]
     }
  }
   },
   mounted () {
-    // Overwriting base render method with actual data.
     this.renderChart(this.chart, {responsive: true, maintainAspectRatio: false})
-  }
+  },
+  props:['background', 'values']
 }
 </script>
