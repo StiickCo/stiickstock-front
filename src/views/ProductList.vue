@@ -21,7 +21,7 @@
         <div class="text-right mr-4">
             <v-dialog v-model="dialogAdd" width="500">
             <template v-slot:activator="{ on }">
-                <v-btn color="green darken-2" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
+                <v-btn style="margin: 0 0 1rem 0" color="green darken-2" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
             </template>
             <v-card>
                 <v-card-title class="headline green lighten-2" primary-title>Adicionar novo produto</v-card-title>
@@ -114,7 +114,7 @@
 </div>
 </template>
 <script>
-import { APIService } from "@/resources/products.js";
+import { APIService } from "../resources/api";
 const api = new APIService();
 
 export default {
@@ -180,7 +180,7 @@ export default {
 
         },
         async addProduct(item){
-            let res = await api.save(item).then(data => {
+            let res = await api.saveProduct(item).then(data => {
               if (data.status == '200') {
                 this.getProducts();
                 this.dialogAdd = false;

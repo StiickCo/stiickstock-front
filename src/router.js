@@ -3,6 +3,7 @@ import Home from './views/Home.vue';
 import Router from 'vue-router';
 import Login from './views/Login.vue';
 import Teams from './views/Teams.vue';
+import AddTeam from './views/AddTeam.vue';
 import PasswordRecovery from './views/PasswordRecovery.vue';
 import Signup from './views/Signup.vue';
 import ProductList from './views/ProductList.vue';
@@ -35,6 +36,11 @@ routes:  [
     path: '/teams',
     name: 'teams',
     component: Teams
+  },
+  {
+    path: '/teams/add',
+    name: 'teamsAdd',
+    component: AddTeam
   },
   {
     path: '/productInfo/:id',
