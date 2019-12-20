@@ -9,7 +9,7 @@ export default {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
       datasets: [
         {
-          label: 'Emails registrados',
+          label: this.label,
           backgroundColor: this.background,
           data: this.values
         }
@@ -20,6 +20,6 @@ export default {
   mounted () {
     this.renderChart(this.chart, {responsive: true, maintainAspectRatio: false})
   },
-  props:['background', 'values']
+  props:['label','background', 'values']
 }
 </script>

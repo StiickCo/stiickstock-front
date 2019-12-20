@@ -1,14 +1,24 @@
 <template>
     <div class="text-center">
-        <h5 class="text-center headline mb-2">Estatísticas</h5>
-            <v-list>
-                <v-btn @click="activateChart('chartAdded')">Produtos adicionados</v-btn>
-                <v-btn class="mx-8" @click="activateChart('chartSold')">Produtos vendidos</v-btn>
-                <v-btn @click="activateChart('chartEmail')">Emails registrados</v-btn>
-            </v-list>
-        <chart-ProductAdded :background="chartAdded.color" :values="chartAdded.data" v-if="chartAdded.show"/>
-        <chart-ProductSold :background="chartSold.color" :values="chartSold.data" v-if="chartSold.show"/>
-        <chart-Emails :background="chartEmail.color" :values="chartEmail.data" v-if="chartEmail.show"/>
+        <v-card>
+            <v-card-title class="headline">Estatísticas</v-card-title>
+                <v-card-text>
+                    <v-card-actions>
+                        <v-btn elevation=1 color="green darken-1" dark @click="activateChart(0)">Produtos adicionados</v-btn>
+                        <v-btn elevation=1 color="green darken-1" dark @click="activateChart(1)">Produtos vendidos</v-btn>
+                        <v-btn elevation=1 color="green darken-1" dark @click="activateChart(2)">Emails registrados</v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn elevation=1 color="green darken-1" dark @click="activateChart(3)">Gráfico geral</v-btn>
+                    </v-card-actions>
+
+                <template v-for="i in charts" >
+                    <Chart :key="i" :label="i.label" :background="i.backgroundColor" :values="i.data" v-if="i.show"/>
+                </template>
+
+                <chart-Overlap :data="charts" v-if="overlap"/>
+                
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 
@@ -17,29 +27,34 @@
 export default {
     data(){
         return{
-            chartAdded:{
+            overlap: false,
+            charts:[{
                 show: true,
-                color: '#890F0F99',
-                data: []
+                label: 'Produtos adicionados',
+                backgroundColor: '#890F0F99',
+                data: [19, 33, 15, 39, 11, 9, 22, 50, 99, 20, 12, 11]
             },
-            chartSold:{
+            {
                 show: false,
-                color: '#890F0F99',
-                data: []
+                label: 'Produtos vendidos',
+                backgroundColor: '#7432C799',
+                data: [60, 20, 21, 87, 12, 40, 32, 18, 40, 9, 12, 33]
             },
-            chartEmail:{
+            {
                 show: false,
-                color: '#890F0F99',
-                data: []
-            }
+                label: 'Emails registrados',
+                backgroundColor: '#AA950899',
+                data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+            }]
         }
     },
     methods:{
         activateChart(chart){
-            this.chartAdded.show= false;
-            this.chartSold.show= false;
-            this.chartEmail.show= false;
-            this[chart].show = !this[chart].show;
+            this.charts[0].show= false;
+            this.charts[1].show= false;
+            this.charts[2].show= false;
+            this.overlap = false;
+            chart == 3 ? this.overlap = true : this.charts[chart].show = true;
         },
     }
 };
