@@ -9,17 +9,17 @@ export default {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
       datasets: [
         {
-          label: 'Produtos adicionados',
-          backgroundColor: '#3F897A',
-          data: [19, 33, 15, 39, 11, 9, 22, 50, 99, 20, 12, 11]
+          label: this.label,
+          backgroundColor: this.background,
+          data: this.values
         }
       ]
     }
  }
   },
   mounted () {
-    // Overwriting base render method with actual data.
     this.renderChart(this.chart, {responsive: true, maintainAspectRatio: false})
-  }
+  },
+  props:['label','background', 'values']
 }
 </script>
