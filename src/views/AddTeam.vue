@@ -88,7 +88,6 @@ export default {
     },
     methods:{   
         async addTeam(team){
-            this.addUser(this.user)
             let res = await api.saveTeam(team).then(data => {
               if (data.status == '200') {
                   console.log('foi');
