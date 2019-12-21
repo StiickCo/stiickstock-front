@@ -1,11 +1,6 @@
 <template>
     <v-card style="width: 100%; height: auto; padding: 1rem">
         <form>
-            <!-- <v-text-field label="Nome do time" v-model="team.name"/>
-            <v-text-field label="Administrador" v-model="team.admin"/>
-                        <v-text-field label="Participantes do Time" v-model="user.name"/>
-                        <v-btn @click="addTeam(team)">Criar Time</v-btn> -->
-
                 <v-card-title class="headline"><v-spacer></v-spacer> Criar novo time <v-spacer></v-spacer> </v-card-title>
                 <v-card-text class="subtitle-1" >
                 <v-divider></v-divider>
@@ -25,13 +20,7 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list> 
-                        <!-- <v-list-item>
-                            <v-list-item-content>
-                                <v-list-item-title> 
-                                     <v-avatar><v-img :src="`${user.picture}`"></v-img></v-avatar>  {{ user.name }}
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item> -->
+
                     </v-flex>
                 </v-layout>
                 <v-divider></v-divider>
@@ -41,7 +30,7 @@
                     <b>Nome do time:</b>
                     </v-flex>
                     <v-flex xs9>
-                        <v-text-field label="Nome do time" v-model="teamName" @input="team.name=fixedTeamName; a()"/>
+                        <v-text-field label="Nome do time" v-model="teamName" @input="team.name=fixedTeamName"/>
                         <span>Seu time será registrado como: <b>{{fixedTeamName}}</b></span>
                     </v-flex>
                 </v-layout>
@@ -53,11 +42,13 @@
                     </v-flex>
 
                     <v-flex xs9>
-                        <v-text-field label="Participantes do Time" v-model="newTeamUser" append-icon="add_circle_outline" @click:append="addUser()"/>
-                        <v-list align-self-center v-for="user in team.users" :key="user">
+                        <v-text-field label="Participantes do Time" v-model="newTeamUser" append-icon="add_circle_outline" @click:append="addUser(newTeamUser); newTeamUser = ''"/>
+                        <v-list align-self-center v-for="u in team.users" :key="u">
                             <v-divider></v-divider>
                             <v-list-item>
-                                <span>{{user}}</span>
+                                <span>{{u}}</span>
+                                <v-spacer></v-spacer>
+                                <v-icon v-if="u !== user.name" @click="removeUser(u)">highlight_off</v-icon>
                             </v-list-item>
                         </v-list>
                     </v-flex>
@@ -66,8 +57,9 @@
                 </v-card-text>
 
                 <v-card-actions>
+                    <v-btn color="green darken-2" dark @click="addTeam(team)">Criar Time</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" dark to="/teams">Voltar</v-btn>
+                    <v-btn color="green darken-3" dark to="/teams">Voltar</v-btn>
                 </v-card-actions>
         </form>
     </v-card>
@@ -108,7 +100,12 @@ export default {
             this.team.users.push(user);
         },
         getuserData(){
-        this.user = JSON.parse(localStorage.getItem('user'));
+            this.user = JSON.parse(localStorage.getItem('user'));
+            this.team.admin = this.user.name;
+        },
+        removeUser(user){
+          let userIndex = this.team.users.indexOf(user);
+          this.team.users.splice(userIndex, 1);
       }
     },
     computed:{
