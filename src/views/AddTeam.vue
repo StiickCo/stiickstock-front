@@ -42,7 +42,11 @@
                     </v-flex>
 
                     <v-flex xs9>
-                        <v-text-field label="Participantes do Time" v-model="newTeamUser" append-icon="add_circle_outline" @click:append="addUser(newTeamUser); newTeamUser = ''"/>
+                        <v-text-field label="Participantes do Time" 
+                        v-model="newTeamUser" 
+                        append-icon="add_circle_outline" 
+                        @click:append="addUser(newTeamUser); newTeamUser = ''"
+                        />
                         <v-list align-self-center v-for="u in team.users" :key="u">
                             <v-divider></v-divider>
                             <v-list-item>
