@@ -27,10 +27,12 @@
                 <v-card-title class="headline green lighten-2" primary-title>Adicionar novo produto</v-card-title>
 
                 <v-card-text>
+                <v-text-field label="Criador do produto" v-model='product.userOwned' readonly="true"></v-text-field>
                 <v-text-field required label="Nome do produto" v-model='product.name'></v-text-field>
                 <v-text-field type='number' step='0.01' label="Preço unitário" prefix="R$" v-model='product.price'></v-text-field>
                 <v-text-field type='number' label="Quantidade de produtos em estoque" v-model='product.quantity'></v-text-field>
                 <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
+                <v-text-field label="Pertencente ao time (opcional)" v-model='product.teamOwned'></v-text-field>
                 </v-card-text>
                 <v-divider></v-divider>
 
@@ -120,6 +122,7 @@ const api = new APIService();
 export default {
     name: "ProductList",
     mounted () {
+      this.getUserData();
       this.getProducts();
       this.getWindow();
     },
@@ -137,6 +140,8 @@ export default {
           price: "",
           quantity: "",
           details: "",
+          userOwned: "",
+          teamOwned: "",
         },
         prodDeleted: 0,
         search: '',
@@ -151,7 +156,8 @@ export default {
           { text: 'Valor total', value: 'total' },
           { text: 'Ações', align: 'center', sortable: false, value: 'actions'},
         ],
-        products: []
+        products: [],
+        user:[]
       }
     },
     methods:{
@@ -177,7 +183,8 @@ export default {
             this.product.quantity = item.quantity;
             this.product.details = item.details;
             this.product.id = item.id
-
+            this.product.userOwned = item.userOwner;
+            this.product.teamOwned = item.teamOwner;
         },
         async addProduct(item){
             let res = await api.saveProduct(item).then(data => {
@@ -212,6 +219,11 @@ export default {
         getWindow(){
             this.wWidth = window.innerWidth;
             this.wHeight = window.innerHeight;
+        },
+        getUserData(){
+            this.user = JSON.parse(localStorage.getItem('user'));
+            this.product.userOwned = this.user.name
+            console.log(this.user)
         },
     },
     computed: {
