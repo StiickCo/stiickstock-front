@@ -23,6 +23,7 @@
 
           <v-layout align-center justify-center row class="paddingLogin">
             <v-flex xs10 lg3 class="animated fadeInLeft delay-0.5s">
+              <span id="stiick" class="header font-weight-medium">Stiick</span><span id="stock" class="header font-weight-thin">Stock</span> 
               <v-text-field
                 outlined
                 label="Email"
@@ -114,7 +115,7 @@ export default {
 
 <style>
 .paddingLogin{
-  padding-top: 35vh;
+  padding-top: 25vh;
 }
 </style>
 
@@ -125,5 +126,9 @@ export default {
 a {
   
   color: white;
+}
+
+.header{
+    font-size: 3em;
 }
 </style>
