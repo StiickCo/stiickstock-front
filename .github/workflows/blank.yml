@@ -10,4 +10,4 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Deploy on SURGE
-      run: npm install && npm run deploy
+      run: npm install && npm install --save-dev surge && npm run deploy
