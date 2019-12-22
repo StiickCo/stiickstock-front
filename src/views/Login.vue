@@ -22,7 +22,7 @@
           </v-snackbar>
 
           <v-layout align-center justify-center row>
-            <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
+            <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s" :style="padding">
               <v-text-field
                 outlined
                 label="Email"
@@ -92,8 +92,11 @@ export default {
       });
     }
   },
+
+  
   data() {
     return {
+      padding:{'padding-top':'4vh'},
       valid: null,
       snackbar: false,
       text: "",
@@ -113,54 +116,11 @@ export default {
 
 <style>
 
-.cabecalho {
-  font-size: 50px;
-  margin-top: 150px;
-  letter-spacing: 2px;
-  width: 500px;
-  height: 138;
-  margin: auto;
-}
-.subHeaderCabecalho{
-  font-size: 24px;
-}
-.snackBarTxt {
-  color: #4a55c2 !important;
-  caret-color: #4a55c2 !important;
-}
-.icon-cabecalho {
-  font-size: 40px !important;
-  padding-right: 4px;
-  padding-bottom: 10px;
-}
-.margin-to-top {
-  margin-top: 50px;
-}
-.margin-to-bottom {
-  margin-top: 160px;
-}
-.overflow {
-  overflow-y: hidden;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  border: transparent;
-  -webkit-text-fill-color: white;
-  box-shadow: 0 0 0px 1000px transparent inset;
-  transition: background-color 5000s ease-in-out 0s;
-}
 </style>
 
 <style scoped>
 a {
+  
   color: white;
 }
 </style>
