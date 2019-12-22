@@ -20,7 +20,6 @@
             </v-btn>
           </v-snackbar>
 
-<!-- 
             <v-layout align-center justify-center row>
             <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
               <v-text-field
@@ -34,7 +33,7 @@
                 :rules="[rules.required]"
               />
             </v-flex>
-          </v-layout> -->
+          </v-layout>
 
           <v-layout align-center justify-center row>
             <v-flex xs10 lg3 class="px-4 animated fadeInLeft delay-0.5s">
@@ -98,14 +97,30 @@
 </template>
 
 <script>
+import { APIService } from "../resources/api";
+const api = new APIService();
 export default {
   methods: {
     limparForm(){
       this.password = ""
       this.repassword = ""
     },
+    async signUpOnBack() {
+      let userToAdd = [{
+        name: this.user,
+        email: this.email,
+        password: this.password
+      }]
+      console.log(userToAdd[0])
+      let res = await api.saveUser(userToAdd[0]).then(data => {
+        if (data.status == '200') {
+            console.log('User successfully saved');
+        }
+      })
+    },
     signUp(e) {
       e.preventDefault();
+      this.signUpOnBack();
       if (this.valid) {
         this.$auth.signUp(this.email, this.password, (err, resp) => {
           if (err && err.code == "invalid_signup") {
@@ -134,6 +149,7 @@ export default {
     return {
       loading: false,
       valid: null,
+      user: "",
       snackbar: false,
       text: '',
       color: '',

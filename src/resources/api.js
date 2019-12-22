@@ -42,6 +42,21 @@ export class APIService {
     return axios.post(url, item, { crossDomain: true }).catch(res => res);
   }
 
-  
+  async findAllUser() {
+    const url = `${API_URL}/user/findAll`;
+    return axios.get(url, { crossDomain: true }).then(response => response.data);
+  }
+  async findByIdUser(id) {
+    const url = `${API_URL}/user/${id}`;
+    return axios.get(url, { crossDomain: true }).then(response => response.data);
+  }
+  deleteUser(team) {
+    const url = `${API_URL}/user/delete/${team.id}`;
+    return axios.delete(url, { crossDomain: true });
+  }
+  async saveUser(item) {
+    const url = `${API_URL}/user/save`;
+    return axios.post(url, item, { crossDomain: true }).catch(res => res);
+  }
 
 }
