@@ -53,7 +53,7 @@
           </v-layout>
 
           <v-layout justify-center row>
-            <v-btn type="submit" @submit="login" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
+            <v-btn type="submit" @submit="login" :loading="loading" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
           </v-layout>
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-1s">
