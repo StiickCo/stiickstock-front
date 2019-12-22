@@ -109,7 +109,7 @@ export default {
       let userToAdd = [{
         name: this.user,
         email: this.email,
-        password: this.password
+        password: ''
       }]
       console.log(userToAdd[0])
       let res = await api.saveUser(userToAdd[0]).then(data => {
