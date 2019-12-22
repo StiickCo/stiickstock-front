@@ -32,13 +32,14 @@
         </v-list-item-content>
         <v-list-item-content>Produtos</v-list-item-content>
       </v-list-item>
-     
-      <v-list-item @click="logout()">
+
+      <v-list-item to="/teams">
         <v-list-item-content>
-            <v-icon>exit_to_app</v-icon>
+          <v-icon>group</v-icon>
         </v-list-item-content>
-        <v-list-item-content>Sair</v-list-item-content>
+        <v-list-item-content>Times</v-list-item-content>
       </v-list-item>
+     
       </v-list>
     </v-navigation-drawer>
 
@@ -76,9 +77,6 @@ import auth from "@/auth.js";
       user: [],
     }),
     methods: {
-      logout(){
-        this.$auth.logout();
-      },
       getuserData(){
         this.user = JSON.parse(localStorage.getItem('user'));
       },

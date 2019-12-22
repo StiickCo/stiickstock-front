@@ -1,22 +1,6 @@
 <template>
   <!-- TEAMS -->
   <div>
-    <v-menu offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
-          <v-icon>group</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item to="/teams">
-          <v-icon>group</v-icon> Times
-        </v-list-item>
-        <v-list-item to="/teams/add">
-          <v-icon>group_add</v-icon> <span> Adicionar times  </span>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    
     <!-- PROFILE -->
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
@@ -42,6 +26,11 @@
             <v-list-item-title> <v-icon color="green">email</v-icon>  {{ user.name }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="logout()">
+          <v-list-item-content>
+              <v-icon>exit_to_app</v-icon>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-menu>
   </div>
@@ -60,6 +49,9 @@ export default {
   methods:{
     getuserData(){
         this.user = JSON.parse(localStorage.getItem('user'));
+      },
+    logout(){
+        this.$auth.logout();
       },
   }
 }
