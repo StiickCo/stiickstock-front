@@ -99,7 +99,6 @@ export default {
             })
         },
         addUser(user) {
-            console.log(user);
             this.team.users.push(user);
         },
         getuserData(){
