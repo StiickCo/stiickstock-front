@@ -1,9 +1,9 @@
 <template>
-  <v-form id="formLogin" v-model="valid" @submit="login">
-    <div class="text-xs-center">
-      <v-layout pa-2>
+  <v-form class="mt-n6" id="formLogin" v-model="valid" @submit="login">
+    <div class="text-xs-center" >
+      <v-layout>
         <v-flex>
-          <div class="cabecalho animated fadeIn delay-0.5s mt-6">
+          <div class="cabecalho animated fadeIn delay-0.5s ">
            
           </div>
           <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
@@ -21,8 +21,8 @@
             </v-btn>
           </v-snackbar>
 
-          <v-layout align-center justify-center row>
-            <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s" :style="padding">
+          <v-layout align-center justify-center row class="paddingLogin">
+            <v-flex xs10 lg3 class="animated fadeInLeft delay-0.5s">
               <v-text-field
                 outlined
                 label="Email"
@@ -36,8 +36,8 @@
             </v-flex>
           </v-layout>
 
-          <v-layout align-center justify-center row>
-            <v-flex xs10 lg3 class="px-4 animated fadeInRight delay-0.5s">
+          <v-layout align-center justify-center row >
+            <v-flex xs10 lg3 class="animated fadeInRight delay-0.5s">
               <v-text-field
                 outlined
                 v-model="password"
@@ -53,7 +53,7 @@
           </v-layout>
 
           <v-layout justify-center row>
-            <v-btn type="submit" @submit="login" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
+            <v-btn type="submit" @submit="login" :loading="loading" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
           </v-layout>
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-1s">
@@ -96,7 +96,6 @@ export default {
   
   data() {
     return {
-      padding:{'padding-top':'4vh'},
       valid: null,
       snackbar: false,
       text: "",
@@ -113,12 +112,16 @@ export default {
 };
 </script>
 
-
 <style>
-
+.paddingLogin{
+  padding-top: 35vh;
+}
 </style>
 
 <style scoped>
+*{
+  margin-top: 0px;
+}
 a {
   
   color: white;
