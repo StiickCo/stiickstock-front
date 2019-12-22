@@ -114,12 +114,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:100,200,500,600,700&display=swap');
-.header{
-    font-family: 'Encode Sans Semi Condensed', sans-serif;
-    font-size: 3em;
-}
-
 .paddingLogin{
   padding-top: 25vh;
 }
@@ -132,5 +126,9 @@ export default {
 a {
   
   color: white;
+}
+
+.header{
+    font-size: 3em;
 }
 </style>
