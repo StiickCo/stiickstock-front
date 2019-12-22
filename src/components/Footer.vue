@@ -1,5 +1,5 @@
 <template>
-  <div class="text-right">  
+  <div v-if="this.$auth.isAuthenticated()" class="text-right">  
       <span class="subtitle-1"><v-spacer></v-spacer>Stiick Co. <span @click="switchMode()">&copy;</span> 2019</span>
   </div>
   

@@ -23,6 +23,7 @@
 
           <v-layout align-center justify-center row class="paddingLogin">
             <v-flex xs10 lg3 class="animated fadeInLeft delay-0.5s">
+              <span id="stiick" class="header font-weight-medium">Stiick</span><span id="stock" class="header font-weight-thin">Stock</span> 
               <v-text-field
                 outlined
                 label="Email"
@@ -113,8 +114,14 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:100,200,500,600,700&display=swap');
+.header{
+    font-family: 'Encode Sans Semi Condensed', sans-serif;
+    font-size: 3em;
+}
+
 .paddingLogin{
-  padding-top: 35vh;
+  padding-top: 25vh;
 }
 </style>
 
