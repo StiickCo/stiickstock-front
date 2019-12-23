@@ -1,9 +1,10 @@
 <template>
   <v-app>
-    <Header/>
+    
     <v-content class="ma-5">
+      <Header class="ma-n5"/>
       <div>
-        <router-view></router-view>
+        <router-view class="mt-12"></router-view>
       </div>
     </v-content>
     <Footer />
@@ -35,8 +36,5 @@ export default {
 <style>
 #app {
   font-family: "Montserrat", "Roboto", Arial, sans-serif;
-}
-#formLogin {
-  padding: 120px 0 0 0;
 }
 </style>

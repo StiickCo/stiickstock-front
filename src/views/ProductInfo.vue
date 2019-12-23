@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-12" v-if="product">
+  <v-card v-if="product">
     <v-card-title class="headline">{{product.name}}</v-card-title>
 
     <v-card-text>
@@ -44,31 +44,7 @@
 </template>
 
 <script>
-import { APIService } from "@/resources/products.js";
-const api = new APIService();
-
-export default {
-    name: "ProductInfo",
-    mounted () {
-      this.getProduct()
-    },
-    data () {
-      return {
-        product: []
-      }
-    },
-    methods:{
-        getProduct(){
-			api.findByIdProduct(this.$route.params.id).then(data => {
-				this.product = data;
-			});
-        }
-    },
-
-}
-</script>
-<script>
-import { APIService } from "@/resources/products.js";
+import { APIService } from "../resources/api";
 const api = new APIService();
 
 export default {

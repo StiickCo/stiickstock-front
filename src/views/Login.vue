@@ -1,16 +1,29 @@
 <template>
-  <v-form id="formLogin" v-model="valid" @submit="login">
-    <div class="text-xs-center">
-      <v-layout pa-2>
+  <v-form class="mt-n6" id="formLogin" v-model="valid" @submit="login">
+    <div class="text-xs-center" >
+      <v-layout>
         <v-flex>
-          <div class="cabecalho animated fadeIn delay-0.5s mt-6">
+          <div class="cabecalho animated fadeIn delay-0.5s ">
            
           </div>
           <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
           </v-layout>
+          <v-snackbar
+            v-model="snackbar"
+          >
+            {{ text }}
+            <v-btn
+              color="white"
+              text
+              @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </v-snackbar>
 
-          <v-layout align-center justify-center row>
-            <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
+          <v-layout align-center justify-center row class="paddingLogin">
+            <v-flex xs10 lg3 class="animated fadeInLeft delay-0.5s">
+              <span id="stiick" class="header font-weight-medium">Stiick</span><span id="stock" class="header font-weight-thin">Stock</span> 
               <v-text-field
                 outlined
                 label="Email"
@@ -24,8 +37,8 @@
             </v-flex>
           </v-layout>
 
-          <v-layout align-center justify-center row>
-            <v-flex xs10 lg3 class="px-4 animated fadeInRight delay-0.5s">
+          <v-layout align-center justify-center row >
+            <v-flex xs10 lg3 class="animated fadeInRight delay-0.5s">
               <v-text-field
                 outlined
                 v-model="password"
@@ -41,7 +54,7 @@
           </v-layout>
 
           <v-layout justify-center row>
-            <v-btn type="submit" @submit="login" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
+            <v-btn type="submit" @submit="login" :loading="loading" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Entrar</v-btn>
           </v-layout>
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-1s">
@@ -80,6 +93,8 @@ export default {
       });
     }
   },
+
+  
   data() {
     return {
       valid: null,
@@ -98,57 +113,22 @@ export default {
 };
 </script>
 
-
 <style>
-
-.cabecalho {
-  font-size: 50px;
-  margin-top: 150px;
-  letter-spacing: 2px;
-  width: 500px;
-  height: 138;
-  margin: auto;
-}
-.subHeaderCabecalho{
-  font-size: 24px;
-}
-.snackBarTxt {
-  color: #4a55c2 !important;
-  caret-color: #4a55c2 !important;
-}
-.icon-cabecalho {
-  font-size: 40px !important;
-  padding-right: 4px;
-  padding-bottom: 10px;
-}
-.margin-to-top {
-  margin-top: 50px;
-}
-.margin-to-bottom {
-  margin-top: 160px;
-}
-.overflow {
-  overflow-y: hidden;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  border: transparent;
-  -webkit-text-fill-color: white;
-  box-shadow: 0 0 0px 1000px transparent inset;
-  transition: background-color 5000s ease-in-out 0s;
+.paddingLogin{
+  padding-top: 25vh;
 }
 </style>
 
 <style scoped>
+*{
+  margin-top: 0px;
+}
 a {
+  
   color: white;
+}
+
+.header{
+    font-size: 3em;
 }
 </style>

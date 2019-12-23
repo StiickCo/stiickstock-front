@@ -1,5 +1,5 @@
 <template>
-  <v-form id="formLogin" v-model="valid">
+  <v-form id="formLogin" @submit="forgotPassword"  v-model="valid">
     <div class="text-xs-center">
       <v-layout pa-2>
         <v-flex>
@@ -7,6 +7,18 @@
           </div>
           <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
           </v-layout>
+          <v-snackbar
+            v-model="snackbar"
+          >
+            {{ text }}
+            <v-btn
+              color="white"
+              text
+              @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </v-snackbar>
 
           <v-layout align-center justify-center row>
             <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
@@ -14,10 +26,9 @@
                 outlined
                 label="Email"
                 color="#004B8B"
-                v-model="user"
+                v-model="email"
                 prepend-inner-icon="mail"
                 clearable
-                @click:clear="limparForm"
                 :rules="[rules.required]"
               />
             </v-flex>
@@ -25,7 +36,7 @@
 
          
           <v-layout justify-center row>
-            <v-btn type="submit" color="#004B8B" outlined class="animated fadeIn delay-0.5s">Enviar</v-btn>
+            <v-btn color="#004B8B" type="submit" outlined class="animated fadeIn delay-0.5s">Enviar</v-btn>
           </v-layout>
 
           <v-layout justify-center row mt-4 class="animated fadeIn delay-0.5s">
@@ -43,26 +54,20 @@ export default {
   methods: {
     limparForm() {
       this.password = "";
+    },
+    forgotPassword(e) {
+      e.preventDefault()
+      this.$auth.forgotPassword(this.email, (err, resp) => {
+        if(err) {  
+          this.text = 'Ocorreu um erro, por favor tente novamente mais tarde.';
+          this.snackbar = true;
+          console.log('Error', err);
+        } else {
+          this.text = 'Um e-mail foi enviado para sua caixa de mensagem.';
+          this.snackbar = true;
+        }
+      })
     }
-    // login(e) {
-    //   e.preventDefault();
-    //   if (this.loading || !this.valid) return;
-    //   this.loading = true;
-    //   this.$auth.newLogin(this.user, this.password, err => {
-    //     if (err && err.code == "invalid_grant") {
-    //       this.color = "#ffffff";
-    //       this.text = "Usuário ou senha incorreto.";
-    //       this.snackbar = true;
-    //       console.log("Error", err);
-    //     } else if (err) {
-    //       this.color = "#ffffff";
-    //       this.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
-    //       this.snackbar = true;
-    //       console.log("Error", err);
-    //     }
-    //     this.loading = false;
-    //   });
-    // }
   },
   data() {
     return {
@@ -71,7 +76,7 @@ export default {
       text: "",
       color: "",
       show: false,
-      user: null,
+      email: "",
       password: "",
       loading: false,
       rules: {

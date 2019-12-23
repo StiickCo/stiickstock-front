@@ -147,7 +147,6 @@
 <script>
 import { APIService } from "../resources/api";
 const api = new APIService();
-
 export default {
     name: "ProductList",
     mounted () {
@@ -199,7 +198,6 @@ export default {
             this.prodDeleted = item;
             this.dialogDelete = true;
         },
-
         async removeProduct(item) {
           console.log(item)
           let res = await api.deleteProduct(item).then(data => {
@@ -209,7 +207,6 @@ export default {
           })
           this.dialogDelete = false;
         },
-
         getProduct(item){
             this.product.name = item.name;
             this.product.price = item.price;

@@ -1,11 +1,14 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import Home from './views/Home.vue';
 import Router from 'vue-router';
-import Login from './views/Login.vue'
-import PasswordRecovery from './views/PasswordRecovery.vue'
-import Signup from './views/Signup.vue'
-import ProductList from './views/ProductList.vue'
-import ProductInfo from './views/ProductInfo.vue'
+import Login from './views/Login.vue';
+import Teams from './views/Teams.vue';
+import TeamInfo from './views/TeamInfo.vue';
+import AddTeam from './views/AddTeam.vue';
+import PasswordRecovery from './views/PasswordRecovery.vue';
+import Signup from './views/Signup.vue';
+import ProductList from './views/ProductList.vue';
+import ProductInfo from './views/ProductInfo.vue';
 import Callback from './views/Callback.vue';
 import NotLogged from './views/NotLogged.vue';
 import NotFound from './views/NotFound.vue';
@@ -31,6 +34,21 @@ routes:  [
     component: ProductList
   },
   {
+    path: '/teams',
+    name: 'teams',
+    component: Teams
+  },
+  {
+    path: '/teams/add',
+    name: 'teamsAdd',
+    component: AddTeam
+  },
+  {
+    path: '/team/info/:id',
+    name: 'teamInfo',
+    component: TeamInfo
+  },
+  {
     path: '/productInfo/:id',
     name: 'productInfo',
     component: ProductInfo
@@ -40,7 +58,6 @@ routes:  [
     name: 'recovery',
     component: PasswordRecovery
   },
-
   {
     path: '/login/signup',
     name: 'signup',

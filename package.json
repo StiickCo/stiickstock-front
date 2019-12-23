@@ -4,17 +4,21 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 3000",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build && cp dist/index.html dist/200.html && echo * >> ./dist/CORS && echo stiick-stock.surge.sh >> ./dist/CNAME",
+    "buildWin": "vue-cli-service build && copy dist\\index.html dist\\200.html && echo * >> .\\dist\\CORS && echo stiick-stock.surge.sh >> .\\dist\\CNAME ",
+    "lint": "vue-cli-service lint",
+    "deploy": "surge ./dist"
   },
   "dependencies": {
     "auth0-js": "^9.10.4",
     "axios": "^0.19.0",
+    "chart.js": "^2.9.3",
     "core-js": "^3.3.2",
     "nodejs": "0.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue": "^2.6.10",
+    "vue-chartjs": "^3.5.0",
     "vue-router": "^3.0.6",
     "vuetify": "^2.1.0",
     "vuex": "^3.0.1"
