@@ -23,53 +23,99 @@
             <template v-slot:activator="{ on }">
                 <v-btn style="margin: 0 0 1rem 0" color="green darken-2" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
             </template>
-            <v-card>
-                <v-card-title class="headline green lighten-2" primary-title>Adicionar novo produto</v-card-title>
 
-                <v-card-text>
-                <v-text-field label="Criador do produto" v-model='product.userOwned' readonly="true"></v-text-field>
-                <v-text-field required label="Nome do produto" v-model='product.name'></v-text-field>
-                <v-text-field type='number' step='0.01' label="Preço unitário" prefix="R$" v-model='product.price'></v-text-field>
-                <v-text-field type='number' label="Quantidade de produtos em estoque" v-model='product.quantity'></v-text-field>
-                <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
-                <v-text-field label="Pertencente ao time (opcional)" v-model='product.teamOwned'></v-text-field>
-                </v-card-text>
-                <v-divider></v-divider>
+            <!-- ADD PRODUCT FORM VALIDATION -->
+            <v-form v-model="valid">
+                <v-card class="">
+                    <v-card-title class="headline green lighten-2" primary-title>Adicionar novo produto</v-card-title>
 
-                <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-2" @click="addProduct(product)" text>Adicionar produto</v-btn>
-                <v-btn color="red" text @click="dialogAdd = false">Cancelar</v-btn>
-                </v-card-actions>
-                
-            </v-card>
+                    <v-card-text>
+                    <v-text-field 
+                        label="Criador do produto" 
+                        v-model='product.userOwner' 
+                        readonly>        
+                    </v-text-field>
+                    <v-text-field 
+                    :rules="[rules.required]" 
+                    label="Nome do produto" 
+                    v-model='product.name'>
+                    </v-text-field>
+                    <v-text-field 
+                    :rules="[rules.required]" 
+                    type='number' 
+                    step='0.01' 
+                    label="Preço unitário" 
+                    prefix="R$" 
+                    v-model='product.price'>
+                    </v-text-field>
+                    <v-text-field 
+                    :rules="[rules.required]" 
+                    type='number' 
+                    label="Quantidade de produtos em estoque" 
+                    v-model='product.quantity'>
+                    </v-text-field>
+                    <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
+                    <v-text-field label="Pertencente ao time (opcional)" v-model='product.teamOwner'></v-text-field>
+                    </v-card-text>
+                    <v-divider></v-divider>
+
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn 
+                        color="blue darken-2" 
+                        @click="addProduct(product)" 
+                        :disabled="!valid" 
+                        text
+                        >Adicionar produto
+                    </v-btn>
+                    <v-btn color="red" text @click="dialogAdd = false">Cancelar</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-form>
             </v-dialog>
     </div>
     
     </template>
-
+        
+        <!-- ADD ONE -->
         <template v-slot:item.plus ="{ item }">
             <v-btn  v-if="wWidth < 600" @click="addOne(item)" class="mr-n4" icon> <v-icon color="green">add</v-icon></v-btn>
             <v-btn  v-else @click="addOne(item)" class="mr-n12" icon> <v-icon color="green">add</v-icon></v-btn>
         </template>
-
+        
+        <!-- QUANTITY -->
         <template v-slot:item.quantity ="{ item }">
             <span> {{ item.quantity }} </span>
         </template>
-
+        
+        <!-- REMOVE ONE -->
         <template v-slot:item.minus ="{ item }">
             <v-btn v-if="wWidth >= 600" @click="removeOne(item)" class="ml-n12" icon> <v-icon color="red">remove</v-icon> </v-btn> 
             <v-btn v-else @click="removeOne(item)" class="mr-n4" icon> <v-icon color="red">remove</v-icon> </v-btn> 
         </template>
-
+        
+        <!-- TOTAL VALUE -->
         <template v-slot:item.total="{ item }">
             <span>{{ item.total = (item.price * item.quantity) }}</span>
         </template>
+        
+        <!-- LABELS/TAGS -->
+        <template v-slot:item.labels="{ item }">
+            <Labels 
+                :labelList="labels" 
+                :item="item" 
+                :updateFunction="updateLabel"
+            />
+            <br>
+            <v-chip label class="ma-1" close @click:close="removeLabel(item,label)" :color="label.color" v-for="(label, i) in item.labels" :key="i"><span>{{label.name}}</span></v-chip>
+        </template>
 
+        <!-- DESCRIPTION -->
         <template v-slot:expanded-item="{ item }">
             <td :colspan="headers.length" class="pa-4"> {{ item.details}} </td>
         </template>
 
+        <!-- ACTIONS -->
         <template v-slot:item.actions="{ item }">
             <v-btn icon :to="`/productInfo/${item.id}`"> <v-icon color="blue darken-1">info</v-icon> </v-btn>
             <v-btn icon @click="getProduct(item);dialogEdit = true;"> <v-icon>edit</v-icon> </v-btn>
@@ -118,7 +164,6 @@
 <script>
 import { APIService } from "../resources/api";
 const api = new APIService();
-
 export default {
     name: "ProductList",
     mounted () {
@@ -140,8 +185,9 @@ export default {
           price: "",
           quantity: "",
           details: "",
-          userOwned: "",
-          teamOwned: "",
+          userOwner: "",
+          teamOwner: "",
+          labels:[],
         },
         prodDeleted: 0,
         search: '',
@@ -150,6 +196,7 @@ export default {
         headers: [{ text: 'ID', value: 'id'},
             { text: 'Nome do produto', value: 'name'},
           { text: 'Preço por item', value: 'price' },
+          { text: 'Tags', value:'labels', sortable:false},
           { text: '', value: 'plus', align:'end', width:'150',sortable: false},
           { text: 'Estoque atual', value: 'quantity', align: 'center', width:'130 '},
           { text: '', value: 'minus', align:'start', width:'150',sortable: false},
@@ -157,7 +204,18 @@ export default {
           { text: 'Ações', align: 'center', sortable: false, value: 'actions'},
         ],
         products: [],
-        user:[]
+        user:[],
+        rules: {
+        required: v => (v && v.length >= 2) || "Minimo de 8 caracteres"
+      },
+      valid:false,
+      labels:[
+      {'name':'Lorem', 'color':'blue'},
+      {'name':'ipsum', 'color':'blue-grey'},
+      {'name':'dolor', 'color':'green'},
+      {'name':'sit amet', 'color':'red'},
+      {'name':'consectetur adipisicing', 'color':'gray'}
+      ],
       }
     },
     methods:{
@@ -166,9 +224,7 @@ export default {
             this.prodDeleted = item;
             this.dialogDelete = true;
         },
-
         async removeProduct(item) {
-          console.log(item)
           let res = await api.deleteProduct(item).then(data => {
             if (data.status == 200) {
               this.getProducts();
@@ -176,15 +232,15 @@ export default {
           })
           this.dialogDelete = false;
         },
-
         getProduct(item){
             this.product.name = item.name;
             this.product.price = item.price;
             this.product.quantity = item.quantity;
             this.product.details = item.details;
             this.product.id = item.id
-            this.product.userOwned = item.userOwner;
-            this.product.teamOwned = item.teamOwner;
+            this.product.userOwner = item.userOwner;
+            this.product.teamOwner = item.teamOwner;
+            this.product.labels = item.labels;
         },
         async addProduct(item){
             let res = await api.saveProduct(item).then(data => {
@@ -198,6 +254,7 @@ export default {
         getProducts() {
           let res = api.findAllProduct().then(data => {
             this.products = data;
+            // console.log(data);
           });
         },
         clear(){
@@ -222,9 +279,23 @@ export default {
         },
         getUserData(){
             this.user = JSON.parse(localStorage.getItem('user'));
-            this.product.userOwned = this.user.name
-            console.log(this.user)
+            this.product.userOwner = this.user.name
         },
+        updateLabel(item,labels){
+            item.labels = labels;
+            item.labels.sort(function( a, b ) {
+                return a.name.localeCompare(b.name);
+            });
+            this.addProduct(item);
+        },
+        removeLabel(item, label){
+            let labelIndex = item.labels.indexOf(label);
+            item.labels.splice(labelIndex, 1);
+            this.addProduct(item);
+
+        }
+    
+
     },
     computed: {
         computedProducts(){
@@ -238,14 +309,8 @@ export default {
                 return this.headers.filter(headers => headers.text != "ID");
             }
             return this.headers;
-        }
+        },
     }
 }
 </script>
 
-<style scoped>
-
-form{
-    padding: 10px;
-}
-</style>
