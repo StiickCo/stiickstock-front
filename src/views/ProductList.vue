@@ -15,7 +15,17 @@
       <v-spacer></v-spacer>
       <v-text-field v-model="search" label="Procurar" single-line hide-details></v-text-field>
     </v-card-title>
-    <v-data-table :headers="computedHeaders" :items="computedProducts" :search="search"  :single-expand=true show-expand>  
+    <v-data-table 
+        :headers="computedHeaders" 
+        :items="computedProducts" 
+        :search="search"  
+        :single-expand=true 
+        show-expand
+        loading-text="Carregando... Por favor aguarde!"
+        no-data-text="Nenhum item encontrado!"
+        no-results-text="Item não encontrado!"
+        loading=false
+        >  
 
     <template v-slot:top>
         <div class="text-right mr-4">
