@@ -15,7 +15,17 @@
       <v-spacer></v-spacer>
       <v-text-field v-model="search" label="Procurar" single-line hide-details></v-text-field>
     </v-card-title>
-    <v-data-table :headers="computedHeaders" :items="computedProducts" :search="search"  :single-expand=true show-expand>  
+    <v-data-table 
+        :headers="computedHeaders" 
+        :items="computedProducts" 
+        :search="search"  
+        :single-expand=true 
+        show-expand
+        loading-text="Carregando... Por favor aguarde!"
+        no-data-text="Nenhum item encontrado!"
+        no-results-text="Item não encontrado!"
+        loading=false
+        >  
 
     <template v-slot:top>
         <div class="text-right mr-4">
@@ -36,22 +46,22 @@
                         readonly>        
                     </v-text-field>
                     <v-text-field 
-                    :rules="[rules.required]" 
-                    label="Nome do produto" 
+                    :rules="productRules" 
+                    label="Nome do produto *" 
                     v-model='product.name'>
                     </v-text-field>
                     <v-text-field 
-                    :rules="[rules.required]" 
+                    :rules="productRules" 
                     type='number' 
                     step='0.01' 
-                    label="Preço unitário" 
+                    label="Preço unitário *" 
                     prefix="R$" 
                     v-model='product.price'>
                     </v-text-field>
                     <v-text-field 
-                    :rules="[rules.required]" 
+                    :rules="productRules" 
                     type='number' 
-                    label="Quantidade de produtos em estoque" 
+                    label="Quantidade de produtos em estoque *" 
                     v-model='product.quantity'>
                     </v-text-field>
                     <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
@@ -205,9 +215,9 @@ export default {
         ],
         products: [],
         user:[],
-        rules: {
-        required: v => (v && v.length >= 2) || "Minimo de 8 caracteres"
-      },
+        productRules:[
+            v => !!v || 'Este campo é obrigatório',
+        ],
       valid:false,
       labels:[
       {'name':'Lorem', 'color':'blue'},
