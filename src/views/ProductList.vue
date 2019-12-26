@@ -32,7 +32,7 @@
                     <v-card-text>
                     <v-text-field 
                         label="Criador do produto" 
-                        v-model='product.userOwned' 
+                        v-model='product.userOwner' 
                         readonly>        
                     </v-text-field>
                     <v-text-field 
@@ -55,7 +55,7 @@
                     v-model='product.quantity'>
                     </v-text-field>
                     <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
-                    <v-text-field label="Pertencente ao time (opcional)" v-model='product.teamOwned'></v-text-field>
+                    <v-text-field label="Pertencente ao time (opcional)" v-model='product.teamOwner'></v-text-field>
                     </v-card-text>
                     <v-divider></v-divider>
 
@@ -107,7 +107,7 @@
                 :updateFunction="updateLabel"
             />
             <br>
-            <v-chip label class="ma-1" close @click:close="updateLabel(item,label)" :color="label.color" v-for="(label, i) in item.labels" :key="i"><span>{{label.name}}</span></v-chip>
+            <v-chip label class="ma-1" close @click:close="removeLabel(item,label)" :color="label.color" v-for="(label, i) in item.labels" :key="i"><span>{{label.name}}</span></v-chip>
         </template>
 
         <!-- DESCRIPTION -->
@@ -168,7 +168,7 @@ export default {
     name: "ProductList",
     mounted () {
       this.getUserData();
-      // this.getProducts();
+      this.getProducts();
       this.getWindow();
     },
     data () {
@@ -185,8 +185,9 @@ export default {
           price: "",
           quantity: "",
           details: "",
-          userOwned: "",
-          teamOwned: "",
+          userOwner: "",
+          teamOwner: "",
+          labels:[],
         },
         prodDeleted: 0,
         search: '',
@@ -202,25 +203,10 @@ export default {
           { text: 'Valor total', value: 'total' },
           { text: 'Ações', align: 'center', sortable: false, value: 'actions'},
         ],
-        products: [{'details':'label teste', 
-                    'id':'01', 
-                    'name': 'Produto teste 01',
-                    'price':'100',
-                    'quantity':'50',
-                    'teamOwned':'gamers',
-                    'userOwned':'teste',
-                    'labels':[]},
-                    {'details':'label teste 2', 
-                    'id':'02', 
-                    'name': 'Produto teste 1',
-                    'price':'100',
-                    'quantity':'50',
-                    'teamOwned':'gamers',
-                    'userOwned':'teste',
-                    'labels':[]}],
+        products: [],
         user:[],
         rules: {
-        required: v => (v && v.length >= 8) || "Minimo de 8 caracteres"
+        required: v => (v && v.length >= 2) || "Minimo de 8 caracteres"
       },
       valid:false,
       labels:[
@@ -239,7 +225,6 @@ export default {
             this.dialogDelete = true;
         },
         async removeProduct(item) {
-          console.log(item)
           let res = await api.deleteProduct(item).then(data => {
             if (data.status == 200) {
               this.getProducts();
@@ -253,8 +238,9 @@ export default {
             this.product.quantity = item.quantity;
             this.product.details = item.details;
             this.product.id = item.id
-            this.product.userOwned = item.userOwner;
-            this.product.teamOwned = item.teamOwner;
+            this.product.userOwner = item.userOwner;
+            this.product.teamOwner = item.teamOwner;
+            this.product.labels = item.labels;
         },
         async addProduct(item){
             let res = await api.saveProduct(item).then(data => {
@@ -268,6 +254,7 @@ export default {
         getProducts() {
           let res = api.findAllProduct().then(data => {
             this.products = data;
+            // console.log(data);
           });
         },
         clear(){
@@ -292,15 +279,22 @@ export default {
         },
         getUserData(){
             this.user = JSON.parse(localStorage.getItem('user'));
-            this.product.userOwned = this.user.name
+            this.product.userOwner = this.user.name
         },
-        updateLabel(item, label){
-            let labelIndex = item.labels.indexOf(label);
-            item.labels.includes(label) ? item.labels.splice(labelIndex, 1) : item.labels.push(label);
+        updateLabel(item,labels){
+            item.labels = labels;
             item.labels.sort(function( a, b ) {
                 return a.name.localeCompare(b.name);
             });
+            this.addProduct(item);
+        },
+        removeLabel(item, label){
+            let labelIndex = item.labels.indexOf(label);
+            item.labels.splice(labelIndex, 1);
+            this.addProduct(item);
+
         }
+    
 
     },
     computed: {
