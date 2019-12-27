@@ -1,5 +1,5 @@
 <template>
-    <v-card style="width: 100%; height: 85vh; padding: 1rem">
+    <v-card>
         <div class="text-right mr-4">
             <v-btn color="green darken-2" :to="`/teams/add`" dark>Criar novo time</v-btn>
         </div>
@@ -42,7 +42,7 @@
                     append-icon="add_circle_outline" 
                     @click:append="addUser(newTeamUser); newTeamUser = ''">
                     </v-text-field>
-                    <v-list v-for="user in team.users" :key="user">
+                    <v-list v-for="user in users" :key="user">
                             <v-divider></v-divider>
                             <v-list-item>
                                 <span>{{user}}</span>
@@ -56,7 +56,7 @@
 
                 <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-2" text @click="1+1">Salvar</v-btn>
+                <v-btn color="blue darken-2" text @click="team.users = users.slice();addTeam(team);dialogEdit = false">Salvar</v-btn>
                 <v-btn color="red" text @click="dialogEdit = false">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -73,7 +73,7 @@ export default {
     },
     data () {
       return {
-        team: [],
+        team: {},
         teams: [],
         users: [],
         headers: [
@@ -90,31 +90,35 @@ export default {
     methods:{
         getTeams() {
             this.loading = true;
-          let res = api.findAllTeam().then(data => {
-            this.teams = data;
-            data.forEach(element => {
-                this.setUsers(element.users)
+                let res = api.findAllTeam().then(data => {
+                this.teams = data;
+                this.loading = false;
             });
-            this.loading = false;
-          });
-        },
-        setUsers(users) {
-            this.users += users;
         },
         addUser(user) {
-            this.team.users.push(user);
+            this.users.push(user);
         },
         removeUser(user){
-          let userIndex = this.team.users.indexOf(user);
-          this.team.users.splice(userIndex, 1);
+          let userIndex = this.users.indexOf(user);
+          this.users.splice(userIndex, 1);
         },
         getTeam(team){
             this.team.admin = team.admin;
             this.team.createdAt = team.createdAt;
             this.team.id = team.id;
             this.team.name = team.name;
-            this.team.users = team.users;
-        }
+            this.users = team.users.slice();
+        },
+        async addTeam(team){
+            let res = await api.saveTeam(team).then(data => {
+              if (data.status == '200') {
+                  console.log('foi');
+                  this.getTeams()
+              }else{
+                console.log(data)
+              }
+            })
+        },
     },
     computed: {
         computedTeams(){
