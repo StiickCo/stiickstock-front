@@ -3,10 +3,6 @@
     <div class="text-xs-center">
       <v-layout pa-2>
         <v-flex>
-          <div class="cabecalho animated fadeIn delay-0.5s mt-6">
-          </div>
-          <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
-          </v-layout>
           <v-snackbar
             v-model="snackbar"
           >
@@ -20,8 +16,9 @@
             </v-btn>
           </v-snackbar>
 
-            <v-layout align-center justify-center row>
+            <v-layout signUp align-center justify-center row>
             <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
+              <span id="stiick" class="header font-weight-medium">Stiick</span><span id="stock" class="header font-weight-thin">Stock</span>
               <v-text-field
                 outlined
                 label="Nome Completo"
@@ -171,7 +168,7 @@ export default {
 <style>
 .cabecalho {
   font-size: 50px;
-  margin-top: 150px;
+  margin-top: 15vh;
   letter-spacing: 2px;
   width: 500px;
   height: 138;
@@ -218,5 +215,13 @@ select:-webkit-autofill:focus {
 <style scoped>
 a {
   color: white;
+}
+
+.header{
+    font-size: 3em;
+}
+
+.signUp{
+  margin-top: -3vh;
 }
 </style>

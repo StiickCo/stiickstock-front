@@ -22,6 +22,7 @@
 
           <v-layout align-center justify-center row>
             <v-flex xs10 lg3 class="px-4 margin-to-top animated fadeInLeft delay-0.5s">
+              <span id="stiick" class="header font-weight-medium">Stiick</span><span id="stock" class="header font-weight-thin">Stock</span>
               <v-text-field
                 outlined
                 label="Email"
@@ -138,5 +139,9 @@ select:-webkit-autofill:focus {
 <style scoped>
 a {
   color: white;
+}
+
+.header{
+  font-size: 3em;
 }
 </style>
