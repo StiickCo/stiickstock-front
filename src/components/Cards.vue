@@ -48,9 +48,7 @@
 <style scoped> 
   #containerCard{
     width: 25vw;
-    border-radius:20px;
     text-align: center;
-    display: inline-block
   }
 </style>
 
