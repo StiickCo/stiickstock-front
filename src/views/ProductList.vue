@@ -117,7 +117,7 @@
                 :updateFunction="updateLabel"
             />
             <br>
-            <v-chip label class="ma-1" close @click:close="removeLabel(item,label)" :color="label.color" v-for="(label, i) in item.labels" :key="i"><span>{{label.name}}</span></v-chip>
+            <v-chip label class="chips" small close @click:close="removeLabel(item,label)" :color="label.color" v-for="(label, i) in item.labels" :key="i"><span>{{label.name}}</span></v-chip>
         </template>
 
         <!-- DESCRIPTION -->
@@ -324,3 +324,9 @@ export default {
 }
 </script>
 
+<style scoped>
+.chips{
+    margin: 2px;
+    font-size: 1em;
+}
+</style>
