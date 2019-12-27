@@ -4,7 +4,17 @@
             <v-btn color="green darken-2" :to="`/teams/add`" dark>Criar novo time</v-btn>
         </div>
         
-        <v-data-table style="padding: 1rem; margin: 1rem 0 0 0" :headers="computedHeaders" :items="computedTeams" show-expand>
+        <v-data-table 
+            style="padding: 1rem; margin: 1rem 0 0 0" 
+            :headers="computedHeaders" 
+            :items="computedTeams" 
+            show-expand
+            loading-text="Carregando... Por favor aguarde!"
+            no-data-text="Nenhum time encontrado!"
+            no-results-text="Time não encontrado!"
+            loading=false
+            >
+
             <template v-slot:item.name ="{ item }">
                 <span> {{ item.name }} </span>
             </template>
