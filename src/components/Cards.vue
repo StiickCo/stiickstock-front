@@ -17,7 +17,6 @@
           </v-list-item-avatar >
           <v-spacer></v-spacer>               
         </v-list-item>
-        
 
         <v-list-item>
         
