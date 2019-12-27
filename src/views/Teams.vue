@@ -12,7 +12,7 @@
             loading-text="Carregando... Por favor aguarde!"
             no-data-text="Nenhum time encontrado!"
             no-results-text="Time não encontrado!"
-            loading=false
+            :loading="loading"
             >
 
             <template v-slot:item.name ="{ item }">
@@ -88,15 +88,18 @@ export default {
         ],
         dialogEdit: false,
         newTeamUser:' ',
+        loading:false,
       }
     },
     methods:{
         getTeams() {
+            this.loading = true;
           let res = api.findAllTeam().then(data => {
             this.teams = data;
             data.forEach(element => {
                 this.setUsers(element.users)
             });
+            this.loading = false;
           });
         },
         setUsers(users) {
