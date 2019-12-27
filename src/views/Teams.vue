@@ -1,5 +1,5 @@
 <template>
-    <v-card style="width: 100%; height: 85vh; padding: 1rem">
+    <v-card>
         <div class="text-right mr-4">
             <v-btn color="green darken-2" :to="`/teams/add`" dark>Criar novo time</v-btn>
         </div>
