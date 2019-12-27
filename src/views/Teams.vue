@@ -30,7 +30,7 @@
         </v-data-table>
 
         <!-- EDIT DIALOG -->
-        <v-dialog v-model="dialogEdit" width="500">
+        <v-dialog @input="checkDialog" v-model="dialogEdit" width="500">
             <v-card>
                 <v-card-title class="headline green lighten-2" primary-title>Editar produto</v-card-title>
                 
@@ -42,7 +42,7 @@
                     append-icon="add_circle_outline" 
                     @click:append="addUser(newTeamUser); newTeamUser = ''">
                     </v-text-field>
-                    <v-list v-for="user in team.users" :key="user">
+                    <v-list v-for="user in users" :key="user">
                             <v-divider></v-divider>
                             <v-list-item>
                                 <span>{{user}}</span>
@@ -73,7 +73,7 @@ export default {
     },
     data () {
       return {
-        team: [],
+        team: {},
         teams: [],
         users: [],
         headers: [
@@ -90,30 +90,44 @@ export default {
     methods:{
         getTeams() {
             this.loading = true;
-          let res = api.findAllTeam().then(data => {
-            this.teams = data;
-            data.forEach(element => {
-                this.setUsers(element.users)
+                let res = api.findAllTeam().then(data => {
+                this.teams = data;
+                this.loading = false;
             });
-            this.loading = false;
-          });
-        },
-        setUsers(users) {
-            this.users += users;
         },
         addUser(user) {
-            this.team.users.push(user);
+            this.users.push(user);
         },
         removeUser(user){
-          let userIndex = this.team.users.indexOf(user);
-          this.team.users.splice(userIndex, 1);
+          let userIndex = this.users.indexOf(user);
+          this.users.splice(userIndex, 1);
         },
         getTeam(team){
             this.team.admin = team.admin;
             this.team.createdAt = team.createdAt;
             this.team.id = team.id;
             this.team.name = team.name;
-            this.team.users = team.users;
+            this.users = team.users.slice();
+        },
+        async addTeam(team){
+            let res = await api.saveTeam(team).then(data => {
+              if (data.status == '200') {
+                  console.log('foi');
+                  this.getTeams()
+              }else{
+                console.log(data)
+              }
+            })
+        },
+        checkDialog(){
+            if (this.dialogEdit){
+                console.log("Dialog is open");
+            }else{
+                console.log("Dialog is closed");
+
+                this.team.users = this.users.slice();
+                this.addTeam(this.team);
+            }
         }
     },
     computed: {
