@@ -30,7 +30,7 @@
         </v-data-table>
 
         <!-- EDIT DIALOG -->
-        <v-dialog @input="checkDialog" v-model="dialogEdit" width="500">
+        <v-dialog v-model="dialogEdit" width="500">
             <v-card>
                 <v-card-title class="headline green lighten-2" primary-title>Editar produto</v-card-title>
                 
@@ -56,7 +56,7 @@
 
                 <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-2" text @click="1+1">Salvar</v-btn>
+                <v-btn color="blue darken-2" text @click="team.users = users.slice();addTeam(team);dialogEdit = false">Salvar</v-btn>
                 <v-btn color="red" text @click="dialogEdit = false">Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -119,16 +119,6 @@ export default {
               }
             })
         },
-        checkDialog(){
-            if (this.dialogEdit){
-                console.log("Dialog is open");
-            }else{
-                console.log("Dialog is closed");
-
-                this.team.users = this.users.slice();
-                this.addTeam(this.team);
-            }
-        }
     },
     computed: {
         computedTeams(){
