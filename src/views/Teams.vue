@@ -23,10 +23,6 @@
                 <span>{{ item.admin }}</span>
             </template>
 
-            <template v-slot:item.users="{ item }">
-                <span>{{ item.users.length }}</span>
-            </template>
-
             <template v-slot:item.actions="{ item }">
                 <v-btn icon :to="`/team/info/${item.id}`"> <v-icon color="blue darken-1">info</v-icon> </v-btn>
                 <v-btn icon @click="getTeam(item); dialogEdit = true;"> <v-icon>edit</v-icon> </v-btn>
@@ -83,7 +79,7 @@ export default {
         headers: [
           { text: 'Nome do time', value: 'name'},
           { text: 'Administrador', value: 'admin'},
-          { text: 'Número de Participantes', value: 'users',},
+          { text: 'Número de Participantes', value: 'users.length'},
           { text: 'Ações', value: 'actions'},
         ],
         dialogEdit: false,
