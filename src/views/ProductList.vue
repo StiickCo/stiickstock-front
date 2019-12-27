@@ -24,7 +24,7 @@
         loading-text="Carregando... Por favor aguarde!"
         no-data-text="Nenhum item encontrado!"
         no-results-text="Item não encontrado!"
-        loading=false
+        :loading="loading"
         >  
 
     <template v-slot:top>
@@ -199,6 +199,7 @@ export default {
           teamOwner: "",
           labels:[],
         },
+        loading:false,
         prodDeleted: 0,
         search: '',
         filterStock: false,
@@ -262,10 +263,12 @@ export default {
             })
         },
         getProducts() {
+            this.loading = true;
           let res = api.findAllProduct().then(data => {
             this.products = data;
-            // console.log(data);
+            this.loading = false;
           });
+
         },
         clear(){
             this.product.name = '',
