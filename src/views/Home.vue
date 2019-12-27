@@ -4,19 +4,28 @@
             <v-card-title class="headline">Estatísticas</v-card-title>
                 <v-card-text>
                     <v-card-actions>
-                        <v-btn elevation=1 color="green darken-1" dark @click="activateChart(0)">Produtos adicionados</v-btn>
-                        <v-btn elevation=1 color="green darken-1" dark @click="activateChart(1)">Produtos vendidos</v-btn>
-                        <v-btn elevation=1 color="green darken-1" dark @click="activateChart(2)">Emails registrados</v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn elevation=1 color="green darken-1" dark @click="activateChart(3)">Gráfico geral</v-btn>
+                        <v-layout row wrap class = "justify-center">
+                            <v-flex xs9 md3 class= 'ma-1'>
+                                <v-btn block elevation=1 color="green darken-1" dark @click="activateChart(0)">Produtos adicionados</v-btn>
+                            </v-flex>
+                            <v-flex xs9 md3 class= 'ma-1'>
+                                <v-btn block elevation=1 color="green darken-1" dark @click="activateChart(1)">Produtos vendidos</v-btn>
+                            </v-flex>
+                            <v-flex xs9 md3 class= 'ma-1'>
+                                <v-btn block elevation=1 color="green darken-1" dark @click="activateChart(2)">Emails registrados</v-btn>
+                            </v-flex>
+                            <v-flex xs9 md2 class= 'ma-1'>
+                                <v-btn block elevation=1 color="green darken-1" dark @click="activateChart(3)">Gráfico geral</v-btn>
+                            </v-flex>
+                        </v-layout>
                     </v-card-actions>
-
-                <template v-for="i in charts" >
-                    <Chart :key="i" :label="i.label" :background="i.backgroundColor" :values="i.data" v-if="i.show"/>
+                    
+                <template v-for="(i,j) in charts" >
+                    <Chart :key="j" :label="i.label" :background="i.backgroundColor" :values="i.data" v-if="i.show"/>
                 </template>
 
                 <chart-Overlap :data="charts" v-if="overlap"/>
-                
+
             </v-card-text>
         </v-card>
     </div>
