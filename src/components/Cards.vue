@@ -9,14 +9,24 @@
         </v-btn>
       </template>
 
-      <v-list>
+      <v-list id = "containerCard">
         <v-list-item>
-          <v-list-item-avatar>
+          <v-spacer></v-spacer>
+          <v-list-item-avatar size = 90>
             <v-img :src="`${user.picture}`"></v-img>
-          </v-list-item-avatar>
+          </v-list-item-avatar >
+          <v-spacer></v-spacer>               
+        </v-list-item>
+        
+
+        <v-list-item>
+        
           <v-list-item-content>
-            {{user.nickname}}
-          </v-list-item-content>                
+            <v-list-item-title class = "font-weight-bold">
+              {{user.nickname}}
+            </v-list-item-title>
+          </v-list-item-content> 
+
         </v-list-item>
 
         <v-divider></v-divider>
@@ -35,6 +45,15 @@
     </v-menu>
   </div>
 </template>
+
+<style scoped> 
+  #containerCard{
+    width: 25vw;
+    border-radius:20px;
+    text-align: center;
+    display: inline-block
+  }
+</style>
 
 <script>
 export default {
