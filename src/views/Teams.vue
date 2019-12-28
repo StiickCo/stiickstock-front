@@ -32,10 +32,10 @@
         <!-- EDIT DIALOG -->
         <v-dialog v-model="dialogEdit" width="500">
             <v-card>
-                <v-card-title class="headline green lighten-2" primary-title>Editar produto</v-card-title>
+                <v-card-title class="headline green lighten-2" primary-title>Editar time</v-card-title>
                 
                 <v-card-text>
-                    <v-text-field required label="Nome do produto" v-model='team.name'></v-text-field>
+                    <v-text-field readonly label="Nome do time" v-model='team.name'></v-text-field>
                     <v-text-field 
                     label="Adicionar membro" 
                     v-model='newTeamUser'
@@ -47,7 +47,7 @@
                             <v-list-item>
                                 <span>{{user}}</span>
                                 <v-spacer></v-spacer>
-                                <v-icon v-if="user !== team.admin" @click="removeUser(user)">highlight_off</v-icon>
+                                <v-icon v-if="user !== team.admin" @click="userDelete = user; dialogDelete = true">highlight_off</v-icon>
                             </v-list-item>
                         </v-list>
 
@@ -61,6 +61,27 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        
+        <!-- USER DELETE CONFIRMATION DIALOG -->
+        <v-dialog v-model="dialogDelete" width="500">
+            <v-card>
+            <v-card-title class="headline green lighten-2" primary-title>Remover participante</v-card-title>
+    
+            <v-card-text class="subtitle-1">Deseja remover "{{ userDelete }}" do time "<b>{{team.name}}</b>" ?</v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+                <v-btn color="red" text @click="removeUser(user)">Deletar</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="blue-darken-2" text @click="dialogDelete = false">Cancelar</v-btn>
+            </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <v-snackbar multi-line timeout=3000 v-model="snackbarDelete">
+            "{{ userDelete }}" foi removido de {{team.name}}
+            <br>
+            Clique em "Salvar" para salvar as mudanças
+        </v-snackbar>
     </v-card>
 </template>
 <script>
@@ -83,11 +104,17 @@ export default {
           { text: 'Ações', value: 'actions'},
         ],
         dialogEdit: false,
-        newTeamUser:' ',
+        dialogDelete: false,
+        snackbarDelete: false,
+        newTeamUser:'',
+        userDelete:'',
         loading:false,
       }
     },
     methods:{
+        a(){
+            alert(this.newTeamUser);
+        },
         getTeams() {
             this.loading = true;
                 let res = api.findAllTeam().then(data => {
@@ -101,6 +128,8 @@ export default {
         removeUser(user){
           let userIndex = this.users.indexOf(user);
           this.users.splice(userIndex, 1);
+          this.dialogDelete = false;
+          this.snackbarDelete = true;
         },
         getTeam(team){
             this.team.admin = team.admin;
