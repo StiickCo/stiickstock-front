@@ -61,7 +61,7 @@
                 </v-card-text>
 
                 <v-card-actions>
-                    <v-btn color="green darken-2" dark @click="addTeam(team)">Criar Time</v-btn>
+                    <v-btn color="green darken-2" dark :loading="loading" @click="addTeam(team)">Criar Time</v-btn>
                     <v-spacer></v-spacer>
                     <v-btn color="green darken-3" dark to="/teams">Voltar</v-btn>
                 </v-card-actions>
@@ -99,10 +99,12 @@ export default {
             text:'',
             color:''
         },
+        loading:false,
       }
     },
     methods:{   
         async addTeam(team){
+            this.loading = true;
             let res = await api.saveTeam(team).then(data => {
               if (data.status == '200') {
                   this.snackbar.show = true;
@@ -114,7 +116,8 @@ export default {
                 this.snackbar.text = "Ocorreu um erro, por favor tente novamente mais tarde"
                 this.snackbar.color = "red";
               }
-            })
+            });
+            this.loading = false;
         },
         addUser(user) {
             this.team.users.push(user);
