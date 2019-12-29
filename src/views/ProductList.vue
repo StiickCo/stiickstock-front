@@ -1,16 +1,16 @@
 <template>
 <div>
-  <!-- <Header/> -->
   <v-card>
     <v-card-title>
-      <!-- Estoque -->
       <v-col>
-      <v-row>
-      <v-switch inset v-model="filterStock" label="Ocultar produtos sem estoque"></v-switch>
-      </v-row>
-      <v-row>
-      <v-switch inset v-model="filterID" label="Ocultar ID dos produtos"></v-switch>
-      </v-row>
+        <v-row>
+            <v-switch inset v-model="filterStock" label="Ocultar produtos sem estoque"></v-switch>
+        </v-row>
+
+        <v-row>
+            <v-switch inset v-model="filterID" label="Ocultar ID dos produtos"></v-switch>
+        </v-row>
+
       </v-col>
       <v-spacer></v-spacer>
       <v-text-field v-model="search" label="Procurar" single-line hide-details></v-text-field>
@@ -33,39 +33,52 @@
             <template v-slot:activator="{ on }">
                 <v-btn style="margin: 0 0 1rem 0" color="green darken-2" dark v-on="on" @click="clear()">Adicionar novo produto</v-btn>
             </template>
-
             <!-- ADD PRODUCT FORM VALIDATION -->
             <v-form v-model="valid">
                 <v-card class="">
                     <v-card-title class="headline green lighten-2" primary-title>Adicionar novo produto</v-card-title>
 
                     <v-card-text>
+                        
                     <v-text-field 
                         label="Criador do produto" 
                         v-model='product.userOwner' 
                         readonly>        
                     </v-text-field>
+
                     <v-text-field 
-                    :rules="productRules" 
-                    label="Nome do produto *" 
-                    v-model='product.name'>
+                        :rules="productRules" 
+                        label="Nome do produto *" 
+                        v-model='product.name'>
                     </v-text-field>
+
                     <v-text-field 
-                    :rules="productRules" 
-                    type='number' 
-                    step='0.01' 
-                    label="Preço unitário *" 
-                    prefix="R$" 
-                    v-model='product.price'>
+                        :rules="productRules" 
+                        type='number' 
+                        step='0.01' 
+                        label="Preço unitário *" 
+                        prefix="R$" 
+                        v-model='product.price'>
                     </v-text-field>
+
                     <v-text-field 
-                    :rules="productRules" 
-                    type='number' 
-                    label="Quantidade de produtos em estoque *" 
-                    v-model='product.quantity'>
+                        :rules="productRules" 
+                        type='number' 
+                        label="Quantidade de produtos em estoque *" 
+                        v-model='product.quantity'>
                     </v-text-field>
-                    <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
-                    <v-text-field label="Pertencente ao time (opcional)" v-model='product.teamOwner'></v-text-field>
+
+                    <v-text-field 
+                        label="Descrição do produto (opcional)" 
+                        v-model='product.details'>
+                    </v-text-field>
+
+                    <v-overflow-btn 
+                        :items="teamList" 
+                        v-model="product.teamOwner" 
+                        label="Pertencente ao time (opcional)">    
+                    </v-overflow-btn>
+
                     </v-card-text>
                     <v-divider></v-divider>
 
@@ -83,6 +96,7 @@
                 </v-card>
             </v-form>
             </v-dialog>
+            <v-overflow-btn :items="teamList" @input='getProducts' v-model="selectedTeam"></v-overflow-btn>
     </div>
     
     </template>
@@ -179,6 +193,7 @@ export default {
     mounted () {
       this.getUserData();
       this.getProducts();
+      this.getTeams();
       this.getWindow();
     },
     data () {
@@ -216,6 +231,8 @@ export default {
         ],
         products: [],
         user:[],
+        teamList:["Todos (DEBUG)","Meus produtos"],
+        selectedTeam:"Meus produtos",
         productRules:[
             v => !!v || 'Este campo é obrigatório',
         ],
@@ -254,6 +271,9 @@ export default {
             this.product.labels = item.labels;
         },
         async addProduct(item){
+            if (item.teamOwner == "Todos (DEBUG)" || item.teamOwner == "Meus produtos"){
+                item.teamOwner = "";
+            }
             let res = await api.saveProduct(item).then(data => {
               if (data.status == '200') {
                 this.getProducts();
@@ -265,10 +285,34 @@ export default {
         getProducts() {
             this.loading = true;
           let res = api.findAllProduct().then(data => {
-            this.products = data;
+            this.products=[];
+            for (let i = 0; i < data.length; i++) {
+                if (this.selectedTeam == "Meus produtos"){
+                    if (data[i].userOwner == this.user.name){
+                        this.products.push(data[i]);    
+                    }
+
+                }else if(data[i].teamOwner == this.selectedTeam){
+                    this.products.push(data[i]);
+
+                }else if (this.selectedTeam == "Todos (DEBUG)"){ // Esse aqui vai ser removido depois, está aqui apenas para testes
+                    this.products = data;
+                    break;
+                }
+                
+                
+            }
             this.loading = false;
           });
-
+        },
+        getTeams() {
+                let res = api.findAllTeam().then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].users.includes(this.user.name)){
+                        this.teamList.push(data[i].name);
+                    }
+                }
+            });
         },
         clear(){
             this.product.name = '',
