@@ -96,7 +96,7 @@
                 </v-card>
             </v-form>
             </v-dialog>
-            <v-overflow-btn :items="teamList" @input='getProducts' v-model="selectedTeam"></v-overflow-btn>
+            <v-overflow-btn  dense :items="teamList" @input='getProducts' :menu-props="{closeOnClick: true}" v-model="selectedTeam"></v-overflow-btn>
     </div>
     
     </template>
@@ -168,10 +168,12 @@
             <v-card>
                 <v-card-title class="headline green lighten-2" primary-title>Editar produto</v-card-title>
                 <v-card-text>
+                <v-text-field label="Criador do produto" readonly v-model='product.userOwner'></v-text-field>
                 <v-text-field required label="Nome do produto" v-model='product.name'></v-text-field>
                 <v-text-field type='number' step='0.01' label="Preço unitário" prefix="R$" v-model='product.price'></v-text-field>
                 <v-text-field type='number' label="Quantidade de produtos em estoque" v-model='product.quantity'></v-text-field>
                 <v-text-field label="Descrição do produto (opcional)" v-model='product.details'></v-text-field>
+                <v-overflow-btn dense :items="teamList" v-model="product.teamOwner"></v-overflow-btn>
                 </v-card-text>
                 <v-divider></v-divider>
 
