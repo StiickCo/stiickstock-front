@@ -5,6 +5,22 @@
     <v-card-text>
       <v-layout row>
         <v-flex ml-3 xs2>
+          <b>Criador do produto:</b>
+        </v-flex>
+
+        <v-flex xs9>{{product.userOwner}}</v-flex>
+      </v-layout>
+
+      <v-layout row mt-3>
+        <v-flex ml-3 xs2>
+          <b>Pertencente ao time:</b>
+        </v-flex>
+
+        <v-flex xs9>{{product.teamOwner}}</v-flex>
+      </v-layout>
+
+      <v-layout row mt-3>
+        <v-flex ml-3 xs2>
           <b>Preço por item:</b>
         </v-flex>
 

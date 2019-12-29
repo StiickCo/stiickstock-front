@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <div class="text-right mr-4">
+        <div class="text-right mr-5 pt-3">
             <v-btn color="green darken-2" :to="`/teams/add`" dark>Criar novo time</v-btn>
         </div>
         
@@ -35,7 +35,7 @@
                 <v-card-title class="headline green lighten-2" primary-title>Editar time</v-card-title>
                 
                 <v-card-text>
-                    <v-text-field readonly label="Nome do time" v-model='team.name'></v-text-field>
+                    <v-text-field label="Nome do time" v-model="team.name" @input="team.name=fixedTeamName"/>
                     <v-text-field 
                     label="Adicionar membro" 
                     v-model='newTeamUser'
@@ -94,7 +94,12 @@ export default {
     },
     data () {
       return {
-        team: {},
+        team: {
+            id: "",
+            name: "",
+            admin: "",
+            users: [],
+        },
         teams: [],
         users: [],
         headers: [
@@ -158,6 +163,9 @@ export default {
                 return this.headers.filter(headers => headers.text != "ID");
             }
             return this.headers;
+        },
+        fixedTeamName(){
+            return this.team.name.split(' ').join('-');
         },
     },
 }
