@@ -1,6 +1,9 @@
 <template>
     <v-card>
         <div class="text-right mr-5 pt-3">
+            
+            <v-switch inset v-model="debug" @change="getTeams" label="DEBUG"></v-switch>
+
             <v-btn color="green darken-2" :to="`/teams/add`" dark>Criar novo time</v-btn>
         </div>
         <v-data-table 
@@ -108,7 +111,8 @@ const api = new APIService();
 export default {
     name: "Teams",
     mounted () {
-      this.getTeams()
+        this.getuserData();
+        this.getTeams();
     },
     data () {
       return {
@@ -140,13 +144,27 @@ export default {
         userDelete:'',
         loading:false,
         products:[],
+        user:[],
+
+        debug:false,
       }
     },
     methods:{
         getTeams() {
             this.loading = true;
                 let res = api.findAllTeam().then(data => {
-                this.teams = data;
+                // this.teams = data;
+                this.teams = [];
+                if (this.debug){
+                    this.teams = data;
+                }else{
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].users.includes(this.user.name)){
+                            this.teams.push(data[i]);
+                        }
+                    }
+                }
+
                 this.loading = false;
             });
         },
@@ -204,7 +222,6 @@ export default {
         },
         async addProduct(item){
             let res = await api.saveProduct(item).then(data => {
-                console.log(data);
                 return data.status;
             })
         },
@@ -212,15 +229,21 @@ export default {
           let res = await api.deleteTeam(team).then(data => {
             if (data.status == 200) {
                 this.snackbar.show = true;
-                this.snackbar.text = "Time deletado com sucesso!"
+                this.snackbar.text = "Time deletado com sucesso!";
                 this.snackbar.color = "green";
                 this.changeProductTeam("");
                 this.getTeams();
             }
-          })
+            });
             this.dialogDelete = false;
-            }
+            
         },
+        getuserData(){
+            this.user = JSON.parse(localStorage.getItem('user'));
+            this.team.admin = this.user.name;
+        },
+        
+    },
     computed: {
         computedTeams(){
             return this.teams;
