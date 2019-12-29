@@ -21,7 +21,7 @@
             <template v-slot:item.actions="{ item }">
                 <v-btn icon :to="`/team/info/${item.id}`"> <v-icon color="blue darken-1">info</v-icon> </v-btn>
                 <v-btn icon @click="getTeam(item); dialogEdit = true;"> <v-icon>edit</v-icon> </v-btn>
-                <v-btn icon @click="getTeam(item); dialogDelete = true"> <v-icon color="red lighten-1 "> delete</v-icon> </v-btn>
+                <v-btn icon @click="getTeam(item); isOwner()"> <v-icon color="red lighten-1 "> delete</v-icon> </v-btn>
             </template>
         </v-data-table>
 
@@ -32,7 +32,7 @@
                 <v-card-title class="headline green lighten-2" primary-title>Editar time</v-card-title>
                 
                 <v-card-text>
-                    <v-text-field label="Nome do time" v-model="team.name" @input="team.name=fixedTeamName"/>
+                    <v-text-field :readonly="team.admin !== user.name" label="Nome do time" v-model="team.name" @input="team.name=fixedTeamName"/>
                     <v-text-field 
                     label="Adicionar membro" 
                     v-model='newTeamUser'
@@ -187,6 +187,15 @@ export default {
             this.team.users = team.users.slice();
             this.users = team.users.slice();
             this.getProducts();
+        },
+        isOwner(){
+            if (this.team.admin != this.user.name){
+                this.snackbar.show = true;
+                this.snackbar.text = "Apenas o administrador pode excluir o time!"
+                this.snackbar.color = "red";
+            }else{
+                this.dialogDelete = true;
+            }
         },
         async addTeam(team){
             let res = await api.saveTeam(team).then(data => {
