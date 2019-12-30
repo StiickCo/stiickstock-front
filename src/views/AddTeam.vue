@@ -61,11 +61,16 @@
                 </v-card-text>
 
                 <v-card-actions>
-                    <v-btn color="green darken-2" dark @click="addTeam(team)">Criar Time</v-btn>
+                    <v-btn color="green darken-2" dark :loading="loading" @click="addTeam(team)">Criar Time</v-btn>
                     <v-spacer></v-spacer>
                     <v-btn color="green darken-3" dark to="/teams">Voltar</v-btn>
                 </v-card-actions>
         </form>
+
+        <v-snackbar :timeout='snackbar.timeout' :color="snackbar.color" v-model="snackbar.show">
+            {{ snackbar.text }}
+        </v-snackbar>
+
     </v-card>
 </template>
 <script>
@@ -88,15 +93,31 @@ export default {
             users: [],
             createdAt: "123123",
         },
+        snackbar:{
+            show:false,
+            timeout:3000,
+            text:'',
+            color:''
+        },
+        loading:false,
       }
     },
     methods:{   
         async addTeam(team){
+            this.loading = true;
             let res = await api.saveTeam(team).then(data => {
               if (data.status == '200') {
-                  console.log('foi');
+                  this.snackbar.show = true;
+                  this.snackbar.text = "Time criado com sucesso!";
+                  this.snackbar.color = "green";
+                  setTimeout(() => this.$router.push('/teams'), 1500);
+              }else{
+                this.snackbar.show = true;
+                this.snackbar.text = "Ocorreu um erro, por favor tente novamente mais tarde"
+                this.snackbar.color = "red";
               }
-            })
+            });
+            this.loading = false;
         },
         addUser(user) {
             this.team.users.push(user);
