@@ -13,18 +13,7 @@
             </div>
             <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
             </v-layout>
-            <v-snackbar
-              v-model="snackbar"
-            >
-              {{ text }}
-              <v-btn
-                color="white"
-                text
-                @click="snackbar = false"
-              >
-                Close
-              </v-btn>
-            </v-snackbar>
+            
 
             <v-layout align-center justify-center row class="paddingLogin">
               <v-flex xs10 lg3 class="animated fadeInLeft delay-0.5s">
@@ -70,6 +59,19 @@
         </v-layout>
       </div>
     </v-form>
+    <v-snackbar 
+      :timeout='snackbar.timeout' 
+      :color="snackbar.color" 
+      v-model="snackbar.show">
+      {{ snackbar.text }}
+
+        <v-btn
+          color="white"
+          text
+          @click="snackbar = false">
+          Close
+        </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -85,17 +87,21 @@ export default {
       this.loading = true;
       this.$auth.newLogin(this.user, this.password, err => {
         if (err && err.code == "invalid_grant") {
-          this.color = "#ffffff";
-          this.text = "Usuário ou senha incorreto.";
-          this.snackbar = true;
+          this.snackbar.color = "red";
+          this.snackbar.text = "Usuário ou senha incorreto.";
+          this.snackbar.show = true;
           console.log("Error", err);
         } else if (err) {
-          this.color = "#ffffff";
-          this.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
-          this.snackbar = true;
+          this.snackbar.color = "red";
+          this.snackbar.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
+          this.snackbar.show = true;
           console.log("Error", err);
         }else{
+          this.snackbar.color = "green";
+          this.snackbar.text = "Autenticado com sucesso";
+          this.snackbar.show = true;
           this.loadingScreen = true;
+          // setTimeout(() => this.loadingScreen = true, 1000);
         }
         this.loading = false;
       });
@@ -106,9 +112,12 @@ export default {
   data() {
     return {
       valid: null,
-      snackbar: false,
-      text: "",
-      color: "",
+      snackbar:{
+        show:false,
+        timeout:3000,
+        text:'',
+        color:''
+      },
       show: false,
       user: null,
       password: "",
