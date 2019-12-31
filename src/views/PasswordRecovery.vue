@@ -7,10 +7,8 @@
           </div>
           <v-layout justify-center class="subHeaderCabecalho animated fadeIn delay-0.5s">
           </v-layout>
-          <v-snackbar
-            v-model="snackbar"
-          >
-            {{ text }}
+          <v-snackbar :timeout='snackbar.timeout' :color="snackbar.color" v-model="snackbar.show">
+            {{ snackbar.text }}
             <v-btn
               color="white"
               text
@@ -59,13 +57,15 @@ export default {
     forgotPassword(e) {
       e.preventDefault()
       this.$auth.forgotPassword(this.email, (err, resp) => {
-        if(err) {  
-          this.text = 'Ocorreu um erro, por favor tente novamente mais tarde.';
-          this.snackbar = true;
+        if(err) {
+          this.snackbar.show = true;  
+          this.snackbar.text = 'Ocorreu um erro, por favor tente novamente mais tarde.';
+          this.snackbar.color = "red";
           console.log('Error', err);
         } else {
-          this.text = 'Um e-mail foi enviado para sua caixa de mensagem.';
-          this.snackbar = true;
+          this.snackbar.show = true;
+          this.snackbar.text = 'Um e-mail foi enviado para sua caixa de mensagem.';
+          this.snackbar.color = "green";
         }
       })
     }
@@ -73,9 +73,12 @@ export default {
   data() {
     return {
       valid: null,
-      snackbar: false,
-      text: "",
-      color: "",
+      snackbar:{
+        show:false,
+        timeout:3000,
+        text:'',
+        color:''
+        },
       show: false,
       email: "",
       password: "",
