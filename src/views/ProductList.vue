@@ -185,6 +185,9 @@
             </v-card>
         </v-dialog>
   </v-card>
+  <v-snackbar :timeout='snackbar.timeout' :color="snackbar.color" v-model="snackbar.show">
+        {{ snackbar.text }}
+    </v-snackbar>
 </div>
 </template>
 <script>
@@ -246,6 +249,12 @@ export default {
       {'name':'sit amet', 'color':'red'},
       {'name':'consectetur adipisicing', 'color':'gray'}
       ],
+      snackbar:{
+        show:false,
+        timeout:3000,
+        text:'',
+        color:''
+        },
       }
     },
     methods:{
@@ -257,7 +266,14 @@ export default {
         async removeProduct(item) {
           let res = await api.deleteProduct(item).then(data => {
             if (data.status == 200) {
-              this.getProducts();
+                this.snackbar.show = true;
+                this.snackbar.text = "Produto removido com sucesso!"
+                this.snackbar.color = "green";
+                this.getProducts();
+            }else{
+                this.snackbar.show = true;
+                this.snackbar.text = "Ocorreu um erro ao remover o produto, por favor tente novamente mais tarde"
+                this.snackbar.color = "red";
             }
           })
           this.dialogDelete = false;
@@ -278,9 +294,17 @@ export default {
             }
             let res = await api.saveProduct(item).then(data => {
               if (data.status == '200') {
+                this.snackbar.show = true;
+                this.snackbar.text = "Produto criado com sucesso!"
+                this.snackbar.color = "green";
+
                 this.getProducts();
                 this.dialogAdd = false;
                 this.dialogEdit = false;
+              }else{
+                this.snackbar.show = true;
+                this.snackbar.text = "Ocorreu um erro ao criar o produto, por favor tente novamente mais tarde"
+                this.snackbar.color = "red";
               }
             })
         },
