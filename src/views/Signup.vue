@@ -3,10 +3,8 @@
     <div class="text-xs-center">
       <v-layout pa-2>
         <v-flex>
-          <v-snackbar
-            v-model="snackbar"
-          >
-            {{ text }}
+          <v-snackbar :timeout='snackbar.timeout' :color="snackbar.color" v-model="snackbar.show">
+        {{ snackbar.text }}
             <v-btn
               color="white"
               text
@@ -121,21 +119,19 @@ export default {
       if (this.valid) {
         this.$auth.signUp(this.email, this.password, (err, resp) => {
           if (err && err.code == "invalid_signup") {
-            this.color = "#fffff";
-            this.text =
-              "Usuário já existe, tente outro usuário ou realize o login.";
-            this.snackbar = true;
+            this.snackbar.color = "red";
+            this.snackbar.text = "Usuário já existe, tente outro usuário ou realize o login.";
+            this.snackbar.show = true;
             console.log("Error", err);
           } else if (err) {
-            this.color = "#fffff";
-            this.text =
-              "Ocorreu um erro, por favor tente novamente mais tarde.";
-            this.snackbar = true;
+            this.snackbar.color = "red";
+            this.snackbar.text = "Ocorreu um erro, por favor tente novamente mais tarde.";
+            this.snackbar.show = true;
             console.log("Error", err);
           } else {
-            this.color = "#fffff";
-            this.text = "Usuário criado com sucesso!";
-            this.snackbar = true;
+            this.snackbar.color = "green";
+            this.snackbar.text = "Usuário criado com sucesso!";
+            this.snackbar.show = true;
             setTimeout(() => this.$router.push('/login'), 1000);
           }
         });
@@ -147,9 +143,12 @@ export default {
       loading: false,
       valid: null,
       user: "",
-      snackbar: false,
-      text: '',
-      color: '',
+      snackbar:{
+        show:false,
+        timeout:3000,
+        text:'',
+        color:''
+        },
       email: null,
       show: false,
       password: null,
