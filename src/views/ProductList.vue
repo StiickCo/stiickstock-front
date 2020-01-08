@@ -200,6 +200,7 @@ export default {
       this.getProducts();
       this.getTeams();
       this.getWindow();
+      this.addDebug()
     },
     data () {
       return {
@@ -236,7 +237,7 @@ export default {
         ],
         products: [],
         user:[],
-        teamList:["Todos (DEBUG)","Meus produtos"],
+        teamList:["Meus produtos"],
         selectedTeam:"Meus produtos",
         productRules:[
             v => !!v || 'Este campo é obrigatório',
@@ -258,6 +259,11 @@ export default {
       }
     },
     methods:{
+        addDebug() {
+            if (this.user.name == "admin@admin.com") {
+                this.teamList.push("Todos (DEBUG)")
+            }
+        },
         getDelete(item){
             this.prodDeleteName = item.name;
             this.prodDeleted = item;
