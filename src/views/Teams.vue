@@ -2,7 +2,7 @@
     <v-card>
         <div class="text-right mr-5 pt-3">
             
-            <v-switch inset v-model="debug" @change="getTeams" label="DEBUG"></v-switch>
+            <v-switch v-if="user.name == 'admin@admin.com'" inset v-model="debug" @change="getTeams" label="DEBUG"></v-switch>
 
             <v-btn color="green darken-2" :to="`/teams/add`" dark>Criar novo time</v-btn>
         </div>
