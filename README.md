@@ -1,4 +1,4 @@
-# StiickStock-Front
+# StiickStock
 
 # Overview
 
